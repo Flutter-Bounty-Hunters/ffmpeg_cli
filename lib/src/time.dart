@@ -187,6 +187,13 @@ class FfmpegTimeDuration {
     return '$sign$whole$fractionString$units';
   }
 
+  String toSeconds() {
+    final seconds = _duration.inSeconds;
+    final fraction = (_duration.inMicroseconds - (seconds * microsPerSecond)) /
+        microsPerSecond;
+    return '${seconds + fraction}';
+  }
+
   @override
   String toString() {
     return toStandardFormat();

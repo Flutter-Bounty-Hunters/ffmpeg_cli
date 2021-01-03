@@ -1,8 +1,15 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:superdeclarative_ffmpeg/flutter_ffmpeg.dart';
 
 part 'ffprobe_json.g.dart';
+
+FfmpegTimeDuration _durationFromJson(String durationString) =>
+    FfmpegTimeDuration.parse(durationString);
+
+String _durationToJson(FfmpegTimeDuration duration) =>
+    duration.toStandardFormat();
 
 @JsonSerializable()
 class FfprobeResult {
@@ -102,9 +109,11 @@ class Stream {
   final String avgFrameRate;
   final String timeBase;
   final int startPts;
-  final String startTime;
+  @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
+  final FfmpegTimeDuration startTime;
   final int durationTs;
-  final String duration;
+  @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
+  final FfmpegTimeDuration duration;
   final String bitRate;
   final String bitsPerRawSample;
   final String maxBitRate;
@@ -184,8 +193,10 @@ class Format {
   final String formatName;
   final String formatLongName;
 
-  final String startTime;
-  final String duration;
+  @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
+  final FfmpegTimeDuration startTime;
+  @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
+  final FfmpegTimeDuration duration;
   final String size;
   final String bitRate;
   final int probeScore;

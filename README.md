@@ -1,5 +1,28 @@
 # SuperDeclarative FFMPEG
 
+## Reminders
+
+### Generate JSON parsers
+
+```
+dart run build_runner build
+```
+
+## Approach
+There are a lot of properties in `ffprobe`. Many of these properties can present in
+varying formats, which are not effectively documented.
+
+The approach to `ffprobe` is to add missing result parameters as they are discovered
+and to add parsing functionality per property as the various possible formats are
+discovered. In other words, only do what is necessary in the given moment because
+the overall scope is too large and difficult to discover.
+
+## Things to decide
+
+### FfmpegTimeDuration
+Should this be a class or should it be `parse()` and `toString()` method to go
+to and from a `Duration`?
+
 ## Notes
 
 ### Timing

@@ -159,6 +159,15 @@ void main() {
         expect(duration.toUnitSpecifiedFormat(FfmpegTimeUnit.microseconds),
             '200000us');
       });
+
+      test('seconds: 23.456', () {
+        expect(
+            FfmpegTimeDuration(Duration(
+              seconds: 23,
+              milliseconds: 456,
+            )).toSeconds(),
+            '23.456');
+      });
     });
   });
 
