@@ -117,6 +117,7 @@ class FfmpegTimeDuration {
         _duration = duration;
 
   final Duration _duration;
+  Duration get duration => _duration;
 
   String toStandardFormat() {
     final hours = _duration.inHours.abs();
