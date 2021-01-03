@@ -1,0 +1,20 @@
+# Ignore dev validation assets
+/assets
+
+# Dart
+.dart_tool/
+.packages
+build/
+pubspec.lock
+
+# Documentation
+/doc/api
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Mac
+.DS_Store

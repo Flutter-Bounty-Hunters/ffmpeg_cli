@@ -1,0 +1,15 @@
+name: superdeclarative_ffmpeg
+version: 0.1.0
+description: Communicates with the FFMPEG CLI.
+homepage: https://github.com/matthew-carroll/superdeclarative_ffmpeg
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+
+dependencies:
+  json_annotation: ^3.1.1
+
+dev_dependencies:
+  test: '>=1.15.0 <2.0.0'
+  build_runner: ^1.0.0
+  json_serializable: ^3.5.1
