@@ -388,6 +388,15 @@ class VolumeFilter implements Filter {
   }
 }
 
+class RawFilter implements Filter {
+  RawFilter(this.cliValue);
+
+  final String cliValue;
+
+  @override
+  String toCli() => cliValue;
+}
+
 enum LogLevel {
   quiet,
   panic,
