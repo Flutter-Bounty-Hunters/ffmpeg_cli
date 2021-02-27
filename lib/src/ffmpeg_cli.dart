@@ -38,17 +38,14 @@ class FfmpegCommand {
     this.outputFilepath,
   });
 
-  final List<String> inputs;
+  final List<FfmpegInput> inputs;
   final List<CliArg> args;
   final FilterGraph filterGraph;
   final String outputFilepath;
 
   List<String> toCli() {
     return [
-      for (final input in inputs) ...[
-        '-i',
-        input,
-      ],
+      for (final input in inputs) ...input.args,
       for (final arg in args) ...[
         '-${arg.name}',
         arg.value,
@@ -65,8 +62,8 @@ class FfmpegCommand {
   /// what command is actually running in the `Process`.
   String expectedCliInput() {
     final buffer = StringBuffer('ffmpeg\n');
-    for (String input in inputs) {
-      buffer.writeln('  -i $input');
+    for (final input in inputs) {
+      buffer.writeln('  ${input.toCli()}');
     }
     for (final arg in args) {
       buffer.writeln('  ${arg.toCli()}');
@@ -77,6 +74,25 @@ class FfmpegCommand {
 
     return buffer.toString();
   }
+}
+
+class FfmpegInput {
+  FfmpegInput.asset(assetPath) : args = ['-i', assetPath];
+
+  FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
+
+  FfmpegInput(this.args);
+
+  final List<String> args;
+
+  String toCli() => args.join(' ');
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is FfmpegInput && runtimeType == other.runtimeType && toCli() == other.toCli();
+
+  @override
+  int get hashCode => toCli().hashCode;
 }
 
 /// An argument that is passed the FFMPEG CLI command.
