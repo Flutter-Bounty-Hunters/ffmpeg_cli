@@ -167,14 +167,27 @@ class TrimFilter implements Filter {
   const TrimFilter({
     this.start,
     this.end,
+    this.duration,
   });
 
   final Duration start;
   final Duration end;
+  final Duration duration;
 
   @override
-  String toCli() =>
-      "trim=start='${FfmpegTimeDuration(start).toSeconds()}':end='${FfmpegTimeDuration(end).toSeconds()}'";
+  String toCli() {
+    final properties = <String>[];
+    if (start != null) {
+      properties.add("start='${FfmpegTimeDuration(start).toSeconds()}'");
+    }
+    if (end != null) {
+      properties.add("end='${FfmpegTimeDuration(end).toSeconds()}'");
+    }
+    if (duration != null) {
+      properties.add("duration='${FfmpegTimeDuration(duration).toSeconds()}'");
+    }
+    return "trim=${properties.join(':')}";
+  }
 }
 
 /// Reduces a given audio stream to the segment between `start` and `end`.
@@ -182,14 +195,27 @@ class ATrimFilter implements Filter {
   const ATrimFilter({
     this.start,
     this.end,
+    this.duration,
   });
 
   final Duration start;
   final Duration end;
+  final Duration duration;
 
   @override
-  String toCli() =>
-      "atrim=start='${FfmpegTimeDuration(start).toSeconds()}':end='${FfmpegTimeDuration(end).toSeconds()}'";
+  String toCli() {
+    final properties = <String>[];
+    if (start != null) {
+      properties.add("start='${FfmpegTimeDuration(start).toSeconds()}'");
+    }
+    if (end != null) {
+      properties.add("end='${FfmpegTimeDuration(end).toSeconds()}'");
+    }
+    if (duration != null) {
+      properties.add("duration='${FfmpegTimeDuration(duration).toSeconds()}'");
+    }
+    return "atrim=${properties.join(':')}";
+  }
 }
 
 /// Sets the Presentation TimeStamp (PTS) for the given video stream.
