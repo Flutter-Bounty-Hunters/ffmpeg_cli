@@ -5,6 +5,10 @@ class FfmpegTimeDuration {
   static const microsPerMillisecond = 1000;
 
   factory FfmpegTimeDuration.parse(String durationString) {
+    if (durationString == null) {
+      return null;
+    }
+
     if (durationString.endsWith('ms')) {
       return FfmpegTimeDuration.parseUnitSpecificDuration(durationString);
     } else if (durationString.endsWith('us')) {
@@ -30,8 +34,7 @@ class FfmpegTimeDuration {
     final timeComponents = durationString.split(':');
     final secondsWithFraction = timeComponents.removeLast();
     final seconds = double.parse(secondsWithFraction).truncate();
-    final microseconds = ((double.parse(secondsWithFraction) - seconds) *
-            microsPerSecond)
+    final microseconds = ((double.parse(secondsWithFraction) - seconds) * microsPerSecond)
         .truncate(); // truncate shouldn't change anything. we just need an int.
     String minutes = '';
     String hours = '';
@@ -42,8 +45,7 @@ class FfmpegTimeDuration {
       hours = timeComponents.removeLast();
     }
     if (timeComponents.length > 0) {
-      throw Exception(
-          'A standard format duration cannot have any time components beyond hours: "$durationString"');
+      throw Exception('A standard format duration cannot have any time components beyond hours: "$durationString"');
     }
 
     final signMultiplier = isNegative ? -1 : 1;
@@ -55,12 +57,10 @@ class FfmpegTimeDuration {
     ));
   }
 
-  factory FfmpegTimeDuration.parseUnitSpecificDuration(
-      String unitSpecificDuration) {
+  factory FfmpegTimeDuration.parseUnitSpecificDuration(String unitSpecificDuration) {
     String durationString = unitSpecificDuration;
     if (durationString == null || durationString.length == 0) {
-      throw Exception(
-          'Duration string must be non-empty: $unitSpecificDuration');
+      throw Exception('Duration string must be non-empty: $unitSpecificDuration');
     }
 
     bool isNegative = durationString[0] == '-';
@@ -80,15 +80,13 @@ class FfmpegTimeDuration {
     } else if (durationString.endsWith('us')) {
       durationString = durationString.substring(0, durationString.length - 2);
       wholeValueMicroMultiplier = 1;
-      fractionValueMicroMultiplier =
-          0; // there should never a microsecond fraction.
+      fractionValueMicroMultiplier = 0; // there should never a microsecond fraction.
     } else if (durationString.endsWith('s')) {
       durationString = durationString.substring(0, durationString.length - 1);
       wholeValueMicroMultiplier = microsPerSecond;
       fractionValueMicroMultiplier = microsPerMillisecond;
     } else {
-      throw Exception(
-          'Unit-specific durations must specify the time unit: "$unitSpecificDuration"');
+      throw Exception('Unit-specific durations must specify the time unit: "$unitSpecificDuration"');
     }
 
     final timeComponents = durationString.split('+');
@@ -97,16 +95,14 @@ class FfmpegTimeDuration {
       fractionalValue = 0;
     } else if (timeComponents.length == 2) {
       wholeValue = int.parse(timeComponents[0]);
-      fractionalValue = int.parse(
-          timeComponents[1].substring(1)); // Remove leading '.' from fraction
+      fractionalValue = int.parse(timeComponents[1].substring(1)); // Remove leading '.' from fraction
     } else {
       throw Exception('Invalid unit-specific duration: "$unitSpecificDuration');
     }
 
     final signMultiplier = isNegative ? -1 : 1;
     return FfmpegTimeDuration(Duration(
-      microseconds: ((wholeValue * wholeValueMicroMultiplier) +
-              (fractionalValue * fractionValueMicroMultiplier)) *
+      microseconds: ((wholeValue * wholeValueMicroMultiplier) + (fractionalValue * fractionValueMicroMultiplier)) *
           signMultiplier,
     ));
   }
@@ -122,8 +118,7 @@ class FfmpegTimeDuration {
   String toStandardFormat() {
     final hours = _duration.inHours.abs();
     final minutes = _duration.inMinutes.abs() - (hours * 60);
-    final seconds =
-        _duration.inSeconds.abs() - (minutes * 60) - (hours * 60 * 60);
+    final seconds = _duration.inSeconds.abs() - (minutes * 60) - (hours * 60 * 60);
     final fraction = (_duration.inMicroseconds.abs() -
                 (seconds * microsPerSecond) -
                 (minutes * microsPerMinute) -
@@ -150,8 +145,7 @@ class FfmpegTimeDuration {
     }
     // Fraction
     if (fraction > 0) {
-      stringBuffer
-          .write(fraction.toString().substring(1)); // cut off the leading '0'
+      stringBuffer.write(fraction.toString().substring(1)); // cut off the leading '0'
     }
     return stringBuffer.toString();
   }
@@ -164,15 +158,12 @@ class FfmpegTimeDuration {
     switch (timeUnit) {
       case FfmpegTimeUnit.seconds:
         whole = _duration.inSeconds.abs();
-        fraction =
-            (_duration.inMicroseconds.abs() - (whole * 1000000)).toDouble() /
-                1000000;
+        fraction = (_duration.inMicroseconds.abs() - (whole * 1000000)).toDouble() / 1000000;
         units = 's';
         break;
       case FfmpegTimeUnit.milliseconds:
         whole = _duration.inMilliseconds.abs();
-        fraction =
-            (_duration.inMicroseconds.abs() - (whole * 1000)).toDouble() / 1000;
+        fraction = (_duration.inMicroseconds.abs() - (whole * 1000)).toDouble() / 1000;
         units = 'ms';
         break;
       case FfmpegTimeUnit.microseconds:
@@ -190,8 +181,7 @@ class FfmpegTimeDuration {
 
   String toSeconds() {
     final seconds = _duration.inSeconds;
-    final fraction = (_duration.inMicroseconds - (seconds * microsPerSecond)) /
-        microsPerSecond;
+    final fraction = (_duration.inMicroseconds - (seconds * microsPerSecond)) / microsPerSecond;
     return '${seconds + fraction}';
   }
 
@@ -203,9 +193,7 @@ class FfmpegTimeDuration {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FfmpegTimeDuration &&
-          runtimeType == other.runtimeType &&
-          _duration == other._duration;
+      other is FfmpegTimeDuration && runtimeType == other.runtimeType && _duration == other._duration;
 
   @override
   int get hashCode => _duration.hashCode;
