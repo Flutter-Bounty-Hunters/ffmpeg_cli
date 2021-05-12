@@ -44,6 +44,11 @@ class FfmpegCommand {
   final String outputFilepath;
 
   List<String> toCli() {
+    if (filterGraph.chains.isEmpty) {
+      throw Exception('Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
+          ' direct copy of an asset, you\'ll need a different tool.');
+    }
+
     return [
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
