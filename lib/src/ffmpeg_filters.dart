@@ -9,21 +9,21 @@ class TrimFilter implements Filter {
     this.duration,
   });
 
-  final Duration start;
-  final Duration end;
-  final Duration duration;
+  final Duration? start;
+  final Duration? end;
+  final Duration? duration;
 
   @override
   String toCli() {
     final properties = <String>[];
     if (start != null) {
-      properties.add("start='${FfmpegTimeDuration(start).toSeconds()}'");
+      properties.add("start='${FfmpegTimeDuration(start!).toSeconds()}'");
     }
     if (end != null) {
-      properties.add("end='${FfmpegTimeDuration(end).toSeconds()}'");
+      properties.add("end='${FfmpegTimeDuration(end!).toSeconds()}'");
     }
     if (duration != null) {
-      properties.add("duration='${FfmpegTimeDuration(duration).toSeconds()}'");
+      properties.add("duration='${FfmpegTimeDuration(duration!).toSeconds()}'");
     }
     return "trim=${properties.join(':')}";
   }
@@ -37,21 +37,21 @@ class ATrimFilter implements Filter {
     this.duration,
   });
 
-  final Duration start;
-  final Duration end;
-  final Duration duration;
+  final Duration? start;
+  final Duration? end;
+  final Duration? duration;
 
   @override
   String toCli() {
     final properties = <String>[];
     if (start != null) {
-      properties.add("start='${FfmpegTimeDuration(start).toSeconds()}'");
+      properties.add("start='${FfmpegTimeDuration(start!).toSeconds()}'");
     }
     if (end != null) {
-      properties.add("end='${FfmpegTimeDuration(end).toSeconds()}'");
+      properties.add("end='${FfmpegTimeDuration(end!).toSeconds()}'");
     }
     if (duration != null) {
-      properties.add("duration='${FfmpegTimeDuration(duration).toSeconds()}'");
+      properties.add("duration='${FfmpegTimeDuration(duration!).toSeconds()}'");
     }
     return "atrim=${properties.join(':')}";
   }
@@ -61,7 +61,7 @@ class ATrimFilter implements Filter {
 /// by duplicating or dropping frames as necessary.
 class FpsFilter implements Filter {
   FpsFilter({
-    this.fps,
+    required this.fps,
     this.startTime,
     this.round,
     this.eofAction,
@@ -70,15 +70,15 @@ class FpsFilter implements Filter {
         assert(eofAction == null || const ['round', 'pass'].contains(eofAction));
 
   final int fps;
-  final FfmpegTimeDuration startTime;
-  final String round;
-  final String eofAction;
+  final FfmpegTimeDuration? startTime;
+  final String? round;
+  final String? eofAction;
 
   @override
   String toCli() {
     final properties = <String>[
       'fps=$fps',
-      if (startTime != null) "start_time='${startTime.toSeconds()}'",
+      if (startTime != null) "start_time='${startTime!.toSeconds()}'",
       if (round != null) 'round=$round',
       if (eofAction != null) 'eof_action=$eofAction',
     ];
@@ -90,7 +90,7 @@ class FpsFilter implements Filter {
 /// Sets the Sample Aspect Ratio for the filter output video.
 class SetSarFilter implements Filter {
   SetSarFilter({
-    this.sar,
+    required this.sar,
   }) : assert(sar != null && sar.isNotEmpty);
 
   final String sar;
@@ -113,14 +113,14 @@ class ScaleFilter implements Filter {
   })  : assert(width == null || width >= -1),
         assert(height == null || height >= -1);
 
-  final int width;
-  final int height;
-  final String eval;
-  final int interl;
+  final int? width;
+  final int? height;
+  final String? eval;
+  final int? interl;
   // TODO: flags
-  final String param0;
-  final String param1;
-  final VideoSize size;
+  final String? param0;
+  final String? param1;
+  final VideoSize? size;
   // TODO: in_color_matrix
   // TODO: out_color_matrix
   // TODO: in_range
@@ -171,8 +171,8 @@ class SwsFlag {
 
 class CropFilter implements Filter {
   const CropFilter({
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
   });
 
   final int width;
@@ -196,7 +196,7 @@ class CropFilter implements Filter {
 class SetPtsFilter implements Filter {
   const SetPtsFilter.startPts() : this(pts: 'PTS-STARTPTS');
 
-  const SetPtsFilter({this.pts});
+  const SetPtsFilter({required this.pts});
 
   final String pts;
 
@@ -208,7 +208,7 @@ class SetPtsFilter implements Filter {
 class ASetPtsFilter implements Filter {
   const ASetPtsFilter.startPts() : this(pts: 'PTS-STARTPTS');
 
-  const ASetPtsFilter({this.pts});
+  const ASetPtsFilter({required this.pts});
 
   final String pts;
 
@@ -220,9 +220,9 @@ class ASetPtsFilter implements Filter {
 /// video and audio output streams.
 class ConcatFilter implements Filter {
   ConcatFilter({
-    this.segmentCount,
-    this.outputVideoStreamCount,
-    this.outputAudioStreamCount,
+    required this.segmentCount,
+    required this.outputVideoStreamCount,
+    required this.outputAudioStreamCount,
   })  : assert(segmentCount != null && segmentCount > 0),
         assert(outputVideoStreamCount != null && outputVideoStreamCount >= 0),
         assert(outputAudioStreamCount != null && outputAudioStreamCount >= 0);
@@ -264,13 +264,13 @@ class TPadFilter implements Filter {
   })  : assert(startMode == null || startMode == 'add' || startMode == 'clone'),
         assert(stopMode == null || stopMode == 'add' || stopMode == 'clone');
 
-  final int start;
-  final int stop;
-  final FfmpegTimeDuration startDuration;
-  final FfmpegTimeDuration stopDuration;
-  final String startMode;
-  final String stopMode;
-  final String color;
+  final int? start;
+  final int? stop;
+  final FfmpegTimeDuration? startDuration;
+  final FfmpegTimeDuration? stopDuration;
+  final String? startMode;
+  final String? stopMode;
+  final String? color;
 
   @override
   String toCli() {
@@ -282,10 +282,10 @@ class TPadFilter implements Filter {
       argList.add('stop=$stop');
     }
     if (startDuration != null) {
-      argList.add('start_duration=${startDuration.toSeconds()}');
+      argList.add('start_duration=${startDuration!.toSeconds()}');
     }
     if (stopDuration != null) {
-      argList.add('stop_duration=${stopDuration.toSeconds()}');
+      argList.add('stop_duration=${stopDuration!.toSeconds()}');
     }
     if (startMode != null) {
       argList.add('start_mode=$startMode');
@@ -316,7 +316,7 @@ class OverlayFilter implements Filter {
 /// Delays a given audio stream.
 class ADelayFilter implements Filter {
   const ADelayFilter({
-    this.delay,
+    required this.delay,
   });
 
   final FfmpegTimeDuration delay;
@@ -340,13 +340,13 @@ class FadeFilter implements Filter {
   })  : assert(type == 'in' || type == 'out'),
         assert(alpha == null || alpha == 0 || alpha == 1);
 
-  final String type;
-  final String startFrame;
-  final String nbFrames;
-  final int alpha;
-  final FfmpegTimeDuration startTime;
-  final FfmpegTimeDuration duration;
-  final String color;
+  final String? type;
+  final String? startFrame;
+  final String? nbFrames;
+  final int? alpha;
+  final FfmpegTimeDuration? startTime;
+  final FfmpegTimeDuration? duration;
+  final String? color;
 
   @override
   String toCli() {
@@ -355,8 +355,8 @@ class FadeFilter implements Filter {
       if (alpha != null) 'alpha=$alpha',
       if (startFrame != null) 'start_frame=$startFrame',
       if (nbFrames != null) 'nb_frames=$nbFrames',
-      if (startTime != null) 'start_time=${startTime.toSeconds()}',
-      if (duration != null) 'duration=${duration.toSeconds()}',
+      if (startTime != null) 'start_time=${startTime!.toSeconds()}',
+      if (duration != null) 'duration=${duration!.toSeconds()}',
       if (color != null) 'color=$color',
     ];
 
@@ -367,14 +367,14 @@ class FadeFilter implements Filter {
 /// Fades a given audio stream.
 class AFadeFilter implements Filter {
   const AFadeFilter({
-    this.type,
+    required this.type,
     this.startTime,
     this.duration,
   }) : assert(type == 'in' || type == 'out');
 
   final String type;
-  final FfmpegTimeDuration startTime;
-  final FfmpegTimeDuration duration;
+  final FfmpegTimeDuration? startTime;
+  final FfmpegTimeDuration? duration;
 
   @override
   String toCli() {
@@ -382,10 +382,10 @@ class AFadeFilter implements Filter {
       'type=$type',
     ];
     if (startTime != null) {
-      argList.add('start_time=${startTime.toSeconds()}');
+      argList.add('start_time=${startTime!.toSeconds()}');
     }
     if (duration != null) {
-      argList.add('duration=${duration.toSeconds()}');
+      argList.add('duration=${duration!.toSeconds()}');
     }
 
     return 'afade=${argList.join(':')}';
@@ -399,7 +399,7 @@ class AFadeFilter implements Filter {
 /// inputs.
 class AMixFilter implements Filter {
   const AMixFilter({
-    this.inputs,
+    required this.inputs,
   });
 
   final int inputs;
@@ -413,7 +413,7 @@ class AMixFilter implements Filter {
 /// Adjusts the volume of a given audio stream.
 class VolumeFilter implements Filter {
   const VolumeFilter({
-    this.volume,
+    required this.volume,
   });
 
   final double volume;
@@ -480,8 +480,8 @@ class RawFilter implements Filter {
 
 class VideoSize {
   const VideoSize({
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
   });
 
   final num width;

@@ -5,24 +5,22 @@ import 'package:superdeclarative_ffmpeg/flutter_ffmpeg.dart';
 
 part 'ffprobe_json.g.dart';
 
-FfmpegTimeDuration _durationFromJson(String durationString) =>
-    FfmpegTimeDuration.parse(durationString);
+FfmpegTimeDuration? _durationFromJson(String? durationString) =>
+    durationString != null ? FfmpegTimeDuration.parse(durationString) : null;
 
-String _durationToJson(FfmpegTimeDuration duration) =>
-    duration.toStandardFormat();
+String? _durationToJson(FfmpegTimeDuration? duration) => duration != null ? duration.toStandardFormat() : null;
 
 @JsonSerializable()
 class FfprobeResult {
-  factory FfprobeResult.fromJson(Map<String, dynamic> json) =>
-      _$FfprobeResultFromJson(json);
+  factory FfprobeResult.fromJson(Map<String, dynamic> json) => _$FfprobeResultFromJson(json);
 
   FfprobeResult({
     this.streams,
     this.format,
   });
 
-  final List<Stream> streams;
-  final Format format;
+  final List<Stream>? streams;
+  final Format? format;
 
   Map<String, dynamic> toJson() => _$FfprobeResultToJson(this);
 
@@ -81,59 +79,58 @@ class Stream {
     this.bitsPerSample,
   });
 
-  final int index;
-  final String codeName;
-  final String codecLongName;
-  final String profile;
-  final String codecType;
-  final String codecTimeBase;
-  final String codecTagString;
-  final String codecTag;
-  final int width;
-  final int height;
-  final int codecWidth;
-  final int codecHeight;
-  final int closedCaptions;
-  final int hasBFrames;
-  final String pixFmt;
-  final int level;
-  final String colorRange;
-  final String colorSpace;
-  final String colorTransfer;
-  final String colorPrimaries;
-  final String chromaLocation;
-  final int refs;
-  final String isAvc;
-  final String nalLengthSize;
-  final String rFrameRate;
-  final String avgFrameRate;
-  final String timeBase;
-  final int startPts;
+  final int? index;
+  final String? codeName;
+  final String? codecLongName;
+  final String? profile;
+  final String? codecType;
+  final String? codecTimeBase;
+  final String? codecTagString;
+  final String? codecTag;
+  final int? width;
+  final int? height;
+  final int? codecWidth;
+  final int? codecHeight;
+  final int? closedCaptions;
+  final int? hasBFrames;
+  final String? pixFmt;
+  final int? level;
+  final String? colorRange;
+  final String? colorSpace;
+  final String? colorTransfer;
+  final String? colorPrimaries;
+  final String? chromaLocation;
+  final int? refs;
+  final String? isAvc;
+  final String? nalLengthSize;
+  final String? rFrameRate;
+  final String? avgFrameRate;
+  final String? timeBase;
+  final int? startPts;
   @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
-  final FfmpegTimeDuration startTime;
-  final int durationTs;
+  final FfmpegTimeDuration? startTime;
+  final int? durationTs;
   @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
-  final FfmpegTimeDuration duration;
-  final String bitRate;
-  final String bitsPerRawSample;
-  final String maxBitRate;
-  final String nbFrames;
-  final Disposition disposition;
-  final Tags tags;
+  final FfmpegTimeDuration? duration;
+  final String? bitRate;
+  final String? bitsPerRawSample;
+  final String? maxBitRate;
+  final String? nbFrames;
+  final Disposition? disposition;
+  final Tags? tags;
 
-  final String sampleFmt;
-  final String sampleRate;
-  final int channels;
-  final String channelLayout;
-  final int bitsPerSample;
+  final String? sampleFmt;
+  final String? sampleRate;
+  final int? channels;
+  final String? channelLayout;
+  final int? bitsPerSample;
 
   Map<String, dynamic> toJson() => _$StreamToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Disposition {
-  factory Disposition.fromJson(Map<String, dynamic> json) =>
-      _$DispositionFromJson(json);
+  factory Disposition.fromJson(Map<String, dynamic> json) => _$DispositionFromJson(json);
 
   Disposition({
     this.defaultCount,
@@ -151,18 +148,18 @@ class Disposition {
   });
 
   @JsonKey(name: 'default')
-  final int defaultCount;
-  final int dub;
-  final int original;
-  final int comment;
-  final int lyrics;
-  final int karaoke;
-  final int forced;
-  final int hearingImpaired;
-  final int visualImpaired;
-  final int cleanEffects;
-  final int attachedPic;
-  final int timedThumbnails;
+  final int? defaultCount;
+  final int? dub;
+  final int? original;
+  final int? comment;
+  final int? lyrics;
+  final int? karaoke;
+  final int? forced;
+  final int? hearingImpaired;
+  final int? visualImpaired;
+  final int? cleanEffects;
+  final int? attachedPic;
+  final int? timedThumbnails;
 
   Map<String, dynamic> toJson() => _$DispositionToJson(this);
 }
@@ -185,23 +182,23 @@ class Format {
     this.tags,
   });
 
-  final String filename;
+  final String? filename;
 
-  final int nbStreams;
-  final int nbPrograms;
+  final int? nbStreams;
+  final int? nbPrograms;
 
-  final String formatName;
-  final String formatLongName;
+  final String? formatName;
+  final String? formatLongName;
 
   @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
-  final FfmpegTimeDuration startTime;
+  final FfmpegTimeDuration? startTime;
   @JsonKey(fromJson: _durationFromJson, toJson: _durationToJson)
-  final FfmpegTimeDuration duration;
-  final String size;
-  final String bitRate;
-  final int probeScore;
+  final FfmpegTimeDuration? duration;
+  final String? size;
+  final String? bitRate;
+  final int? probeScore;
 
-  final Tags tags;
+  final Tags? tags;
 
   Map<String, dynamic> toJson() => _$FormatToJson(this);
 }
@@ -220,13 +217,13 @@ class Tags {
     this.encoder,
   });
 
-  final String majorBrand;
-  final String minorVersion;
-  final String compatibleBrands;
-  final String creationTime;
-  final String language;
-  final String handlerName;
-  final String encoder;
+  final String? majorBrand;
+  final String? minorVersion;
+  final String? compatibleBrands;
+  final String? creationTime;
+  final String? language;
+  final String? handlerName;
+  final String? encoder;
 
   Map<String, dynamic> toJson() => _$TagsToJson(this);
 }

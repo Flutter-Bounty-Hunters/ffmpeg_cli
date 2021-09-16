@@ -5,10 +5,6 @@ class FfmpegTimeDuration {
   static const microsPerMillisecond = 1000;
 
   factory FfmpegTimeDuration.parse(String durationString) {
-    if (durationString == null) {
-      return null;
-    }
-
     if (durationString.endsWith('ms')) {
       return FfmpegTimeDuration.parseUnitSpecificDuration(durationString);
     } else if (durationString.endsWith('us')) {
@@ -21,7 +17,7 @@ class FfmpegTimeDuration {
   }
 
   factory FfmpegTimeDuration.parseStandardDuration(String durationString) {
-    if (durationString == null || durationString.length == 0) {
+    if (durationString.length == 0) {
       throw Exception('Duration string must be non-empty: $durationString');
     }
 
@@ -59,7 +55,7 @@ class FfmpegTimeDuration {
 
   factory FfmpegTimeDuration.parseUnitSpecificDuration(String unitSpecificDuration) {
     String durationString = unitSpecificDuration;
-    if (durationString == null || durationString.length == 0) {
+    if (durationString.length == 0) {
       throw Exception('Duration string must be non-empty: $unitSpecificDuration');
     }
 
@@ -109,8 +105,7 @@ class FfmpegTimeDuration {
 
   const FfmpegTimeDuration(
     Duration duration,
-  )   : assert(duration != null),
-        _duration = duration;
+  ) : _duration = duration;
 
   final Duration _duration;
   Duration get duration => _duration;
@@ -152,9 +147,9 @@ class FfmpegTimeDuration {
 
   String toUnitSpecifiedFormat(FfmpegTimeUnit timeUnit) {
     final sign = _duration.isNegative ? '-' : '';
-    int whole;
-    double fraction;
-    String units;
+    late int whole;
+    double? fraction;
+    String? units;
     switch (timeUnit) {
       case FfmpegTimeUnit.seconds:
         whole = _duration.inSeconds.abs();
@@ -173,9 +168,8 @@ class FfmpegTimeDuration {
         break;
     }
 
-    final fractionString = fraction == null || fraction == 0
-        ? ''
-        : '+${fraction.toString().substring(1)}'; // Cut the leading '0' off the fraction
+    final fractionString =
+        fraction == 0 ? '' : '+${fraction.toString().substring(1)}'; // Cut the leading '0' off the fraction
     return '$sign$whole$fractionString$units';
   }
 

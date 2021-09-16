@@ -6,7 +6,7 @@ import 'ffprobe_json.dart';
 class Ffprobe {
   static Future<FfprobeResult> run(
     String filepath, {
-    String workingDir,
+    String? workingDir,
   }) async {
     final result = await Process.run('ffprobe', [
       '-v',
@@ -19,13 +19,11 @@ class Ffprobe {
     ]);
 
     if (result.exitCode != 0) {
-      throw Exception(
-          'ffprobe returned error: ${result.exitCode}\n${result.stderr}');
+      print('Failed to run ffprobe for "$filepath"');
+      throw Exception('ffprobe returned error: ${result.exitCode}\n${result.stderr}');
     }
 
-    if (result.stdout == null ||
-        !(result.stdout is String) ||
-        (result.stdout as String).isEmpty) {
+    if (result.stdout == null || !(result.stdout is String) || (result.stdout as String).isEmpty) {
       throw Exception('ffprobe did not output expected data: ${result.stdout}');
     }
 

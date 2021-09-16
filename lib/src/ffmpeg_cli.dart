@@ -7,7 +7,7 @@ import 'package:superdeclarative_ffmpeg/flutter_ffmpeg.dart';
 /// Orchestrates FFMPEG CLI execution.
 class Ffmpeg {
   Future<Process> runWithFilterGraph({
-    FfmpegCommand command,
+    required FfmpegCommand command,
   }) {
     return Process.start(
       'ffmpeg',
@@ -34,8 +34,8 @@ class FfmpegCommand {
   FfmpegCommand({
     this.inputs = const [],
     this.args = const [],
-    this.filterGraph,
-    this.outputFilepath,
+    required this.filterGraph,
+    required this.outputFilepath,
   });
 
   final List<FfmpegInput> inputs;
@@ -105,8 +105,8 @@ class CliArg {
   CliArg.logLevel(LogLevel level) : this(name: 'loglevel', value: level.toFfmpegString());
 
   const CliArg({
-    this.name,
-    this.value,
+    required this.name,
+    required this.value,
   });
 
   final String name;
@@ -122,7 +122,7 @@ class CliArg {
 /// http://ffmpeg.org/ffmpeg-filters.html#Filtergraph-syntax-1
 class FilterGraph {
   const FilterGraph({
-    this.chains,
+    required this.chains,
   });
 
   final List<FilterChain> chains;
@@ -139,9 +139,9 @@ class FilterGraph {
 /// those filters then produce some number of output streams.
 class FilterChain {
   const FilterChain({
-    this.inputs,
-    this.filters,
-    this.outputs,
+    required this.inputs,
+    required this.filters,
+    required this.outputs,
   });
 
   final List<String> inputs;
