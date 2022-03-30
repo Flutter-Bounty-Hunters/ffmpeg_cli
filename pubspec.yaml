@@ -1,15 +1,17 @@
-name: superdeclarative_ffmpeg
+name: ffmpeg_cli
 version: 0.1.0
-description: Communicates with the FFMPEG CLI.
-homepage: https://github.com/matthew-carroll/superdeclarative_ffmpeg
+description: Run FFMPEG CLI commands from Dart.
+homepage: https://github.com/Flutter-Bounty-Hunters/ffmpeg_cli
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   json_annotation: ^4.1.0
+  logging: ^1.0.2
 
 dev_dependencies:
   test: ^1.17.12
+  flutter_lints: ^1.0.4
   build_runner: ^2.1.2
   json_serializable: ^5.0.1

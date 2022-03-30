@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:superdeclarative_ffmpeg/flutter_ffmpeg.dart';
+import 'package:ffmpeg_cli/src/ffmpeg/log_level.dart';
 
 /// Dart wrappers for FFMPEG CLI commands, arguments, flags, and filters.
 
-/// Orchestrates FFMPEG CLI execution.
+/// Executes FFMPEG commands from Dart.
 class Ffmpeg {
-  Future<Process> runWithFilterGraph({
-    required FfmpegCommand command,
-  }) {
+  /// Executes the given [command].
+  Future<Process> run(FfmpegCommand command) {
     return Process.start(
       'ffmpeg',
       command.toCli(),
@@ -16,7 +15,7 @@ class Ffmpeg {
   }
 }
 
-/// FFMPEG CLI primary command.
+/// FFMPEG CLI command.
 ///
 /// The `ffmpeg` CLI command is the primary CLI tool for FFMPEG. This class
 /// is a Dart wrapper around that command.
@@ -31,18 +30,27 @@ class Ffmpeg {
 ///
 /// `outputFilepath`  is the path to where the final video should be stored
 class FfmpegCommand {
-  FfmpegCommand({
+  const FfmpegCommand({
     this.inputs = const [],
     this.args = const [],
     required this.filterGraph,
     required this.outputFilepath,
   });
 
+  /// FFMPEG command inputs, such as assets and virtual devices.
   final List<FfmpegInput> inputs;
+
+  /// All non-input arguments for the FFMPEG command, such as "map".
   final List<CliArg> args;
+
+  /// The graph of filters that produce the final video.
   final FilterGraph filterGraph;
+
+  /// The file path for the rendered video.
   final String outputFilepath;
 
+  /// Converts this command to a series of CLI arguments, which can be
+  /// passed to a `Process` for execution.
   List<String> toCli() {
     if (filterGraph.chains.isEmpty) {
       throw Exception('Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
@@ -81,15 +89,26 @@ class FfmpegCommand {
   }
 }
 
+/// An input into an FFMPEG filter graph.
+///
+/// An input might refer to a video file, audio file, or virtual device.
 class FfmpegInput {
+  /// Configures an FFMPEG input for an asset at the given [assetPath].
   FfmpegInput.asset(assetPath) : args = ['-i', assetPath];
 
+  /// Configures an FFMPEG input for a virtual device.
+  ///
+  /// See the FFMPEG docs for more information.
   FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
 
-  FfmpegInput(this.args);
+  const FfmpegInput(this.args);
 
+  /// List of CLI arguments that configure a single FFMPEG input.
   final List<String> args;
 
+  /// Returns this input in a form that can be added to a CLI string.
+  ///
+  /// Example: "-i /videos/vid1.mp4"
   String toCli() => args.join(' ');
 
   @override
@@ -100,7 +119,7 @@ class FfmpegInput {
   int get hashCode => toCli().hashCode;
 }
 
-/// An argument that is passed the FFMPEG CLI command.
+/// An argument that is passed to the FFMPEG CLI command.
 class CliArg {
   CliArg.logLevel(LogLevel level) : this(name: 'loglevel', value: level.toFfmpegString());
 
@@ -127,6 +146,7 @@ class FilterGraph {
 
   final List<FilterChain> chains;
 
+  /// Returns this filter graph in a form that can be run in a CLI command.
   String toCli({indent = ''}) {
     return chains.map((chain) => indent + chain.toCli()).join('; \n');
   }
@@ -144,9 +164,15 @@ class FilterChain {
     required this.outputs,
   });
 
-  final List<String> inputs;
+  /// Streams that flow into the [filters].
+  final List<FfmpegStream> inputs;
+
+  /// Filters that apply to the [inputs], and generate the [outputs].
   final List<Filter> filters;
-  final List<String> outputs;
+
+  /// New streams that flow out of the [filters], after applying those
+  /// [filters] to the [inputs].
+  final List<FfmpegStream> outputs;
 
   /// Formats this filter chain for the FFMPEG CLI.
   ///
@@ -155,7 +181,62 @@ class FilterChain {
   ///
   /// Example:
   /// [0:0] trim=start='10':end='15' [out_v]
-  String toCli() => '${inputs.join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+  String toCli() =>
+      '${inputs.map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+}
+
+/// A single video/audio stream pair within an FFMPEG filter graph.
+///
+/// A stream might include a video ID, or an audio ID, or both.
+///
+/// Every filter chain in an FFMPEG filter graph requires one or more
+/// input streams, and produces one or more output streams. From a CLI
+/// perspective, these streams are just string names within the filter
+/// graph configuration. However, these string names need to match, as
+/// outputs from one filter chain are used as inputs in another filter
+/// chain. To that end, these streams are represented by this class.
+class FfmpegStream {
+  const FfmpegStream({
+    this.videoId,
+    this.audioId,
+  }) : assert(videoId != null || audioId != null, "FfmpegStream must include a videoId, or an audioId.");
+
+  /// Handle to a video stream, e.g., "[0:v]".
+  final String? videoId;
+
+  /// Handle to an audio stream, e.g., "[0:a]".
+  final String? audioId;
+
+  /// Returns a copy of this stream with just the video stream handle.
+  ///
+  /// If this stream only includes video, then this stream is returned.
+  FfmpegStream get videoOnly {
+    return audioId == null ? this : FfmpegStream(videoId: videoId);
+  }
+
+  /// Returns a copy of this stream with just the audio stream handle.
+  ///
+  /// If this stream only includes audio, then this stream is returned.
+  FfmpegStream get audioOnly {
+    return videoId == null ? this : FfmpegStream(audioId: audioId);
+  }
+
+  /// Returns the video and audio handles for this stream in a list,
+  /// to pass into a filter graph as filter inputs or outputs, e.g.,
+  /// "[0:v] [0:a]".
+  List<String> toCliList() {
+    final streams = <String>[];
+    if (videoId != null) {
+      streams.add(videoId!);
+    }
+    if (audioId != null) {
+      streams.add(audioId!);
+    }
+    return streams;
+  }
+
+  @override
+  String toString() => toCliList().join(" ");
 }
 
 /// An individual FFMPEG CLI filter, which can be composed within a filter
@@ -165,41 +246,4 @@ class FilterChain {
 /// asset happens by way of a filter, e.g., trim, fade, concatenation, etc.
 abstract class Filter {
   String toCli();
-}
-
-enum LogLevel {
-  quiet,
-  panic,
-  fatal,
-  error,
-  warning,
-  info,
-  verbose,
-  debug,
-  trace,
-}
-
-extension on LogLevel {
-  String toFfmpegString() {
-    switch (this) {
-      case LogLevel.quiet:
-        return 'quiet';
-      case LogLevel.panic:
-        return 'panic';
-      case LogLevel.fatal:
-        return 'fatal';
-      case LogLevel.error:
-        return 'error';
-      case LogLevel.warning:
-        return 'warning';
-      case LogLevel.info:
-        return 'info';
-      case LogLevel.verbose:
-        return 'verbose';
-      case LogLevel.debug:
-        return 'debug';
-      case LogLevel.trace:
-        return 'trace';
-    }
-  }
 }

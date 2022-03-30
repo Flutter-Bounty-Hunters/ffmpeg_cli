@@ -1,0 +1,16 @@
+name: example
+version: 1.0.0
+description: Example for ffmpeg_cli
+
+publish_to: none
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  ffmpeg_cli:
+    path: ../
+
+dev_dependencies:
+  test: ^1.17.12
+  flutter_lints: ^1.0.4
