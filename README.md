@@ -69,16 +69,9 @@ This package allows you to configure FFMPEG CLI commands with Dart code.
 
 `ffmpeg_cli` purposefully retains the complexity of FFMPEG commands so that anything the FFMPEG CLI can do, the `ffmpeg_cli` package can do.
 
-To compose videos with higher level tools, consider using `cinema`, which offers composable video compositions, which avoids the concept of the filter graph.
+To compose videos with higher level tools, consider using [`cutting_room`](), which offers video compositions that hide the filter graph.
 
-## Generate JSON parsers
-To (re)generate JSON schemas, run `build_runner`.
-
-```
-dart run build_runner build
-```
-
-## FFPROBE Approach
+## How ffprobe support is managed
 There are a lot of properties in `ffprobe`. Many of these properties can present in
 varying formats, which are not effectively documented.
 
