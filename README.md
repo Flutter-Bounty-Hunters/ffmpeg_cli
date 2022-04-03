@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/7259036/161407044-c3fe05bd-0902-4f84-a216-106cb1ad37ee.png" width="300" alt="FFMPEG CLI"><br>
-  <span>Execute FFMPEG CLI commands from Dart.</span><br><br>
+  <span><b>Execute FFMPEG CLI commands from Dart.</b></span><br><br>
 </p>
 
 
