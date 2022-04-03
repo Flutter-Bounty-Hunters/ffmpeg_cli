@@ -1,7 +1,7 @@
 # FFMPEG CLI (Command Line Interface)
 Execute FFMPEG CLI commands from Dart using `ffmpeg_cli`.
 
-> This project is a Flutter Bounty Hunters [proof-of-concept](). Want more FFMPEG filters, or more FFPROBE support? [Fund a milestone]() today!
+> This project is a Flutter Bounty Hunters [proof-of-concept](http://policies.flutterbountyhunters.com/about/proof-of-concept). Want more FFMPEG filters, or more FFPROBE support? [Fund a milestone](http://policies.flutterbountyhunters.com/about/fund-a-milestone) today!
 
 ## What is FFMPEG?
 FFMPEG is a very popular, longstanding tool for reading, writing, and streaming audio and video content. Most developers use FFMPEG through its command-line interface (CLI), because that's much easier than interfacing with the C code upon which FFMPEG is built.
@@ -10,8 +10,6 @@ FFMPEG is a very popular, longstanding tool for reading, writing, and streaming 
 This package allows you to configure FFMPEG CLI commands with Dart code.
 
 `ffmpeg_cli` purposefully retains the complexity of FFMPEG commands so that anything the FFMPEG CLI can do, the `ffmpeg_cli` package can do.
-
-To compose videos with higher level tools, consider using [`cutting_room`](), which offers video compositions that hide the filter graph.
 
 ## Quickstart
 First, make sure that `ffmpeg` is installed on your device, and is available on your system path.
