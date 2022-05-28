@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/7259036/161407044-c3fe05bd-0902-4f84-a216-106cb1ad37ee.png" width="300" alt="FFMPEG CLI"><br>
+  <img src="https://user-images.githubusercontent.com/7259036/170845405-08471588-54a0-4628-b7d5-b7552b08696e.png" width="300" alt="FFMPEG CLI"><br>
   <span><b>Execute FFMPEG CLI commands from Dart.</b></span><br><br>
 </p>
 
