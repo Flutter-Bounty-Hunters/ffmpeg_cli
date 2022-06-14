@@ -4,7 +4,7 @@
 </p>
 
 
-> This project is a Flutter Bounty Hunters [proof-of-concept](http://policies.flutterbountyhunters.com/about/proof-of-concept). Want more FFMPEG filters, or more FFPROBE support? [Fund a milestone](http://policies.flutterbountyhunters.com/about/fund-a-milestone) today!
+> This project is a Flutter Bounty Hunters [proof-of-concept](http://policies.flutterbountyhunters.com/proof-of-concept). Want more FFMPEG filters, or more FFPROBE support? [Fund a milestone](http://policies.flutterbountyhunters.com/fund-milestone) today!
 
 ## What is FFMPEG?
 [FFMPEG](https://ffmpeg.org/ffmpeg.html) is a very popular, longstanding tool for reading, writing, and streaming audio and video content. Most developers use FFMPEG through its command-line interface (CLI), because that's much easier than interfacing with the C code upon which FFMPEG is built.
