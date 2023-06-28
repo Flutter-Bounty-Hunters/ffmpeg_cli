@@ -18,6 +18,3 @@ pubspec.lock
 
 # Mac
 .DS_Store
-
-# temp
-example/assets/tts-0.wav

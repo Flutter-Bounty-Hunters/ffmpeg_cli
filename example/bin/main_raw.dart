@@ -26,6 +26,7 @@ void main() async {
       // the output file.
       const CliArg(name: 'map', value: "[comp_0_v]"),
       const CliArg(name: 'map', value: "[comp_0_a]"),
+      // Overwrite output files without asking
       const CliArg(name: 'y'),
       // TODO: need to generalize knowledge of when to use vsync -2
       const CliArg(name: 'vsync', value: '2'),
@@ -44,7 +45,6 @@ void main() async {
           filters: [
             // Combine the two source videos, one after the other, by
             // using the "concat" filter.
-            CropFilter(width: 585, height: 100),
             ConcatFilter(
               segmentCount: 2,
               outputVideoStreamCount: 1,
