@@ -6,10 +6,11 @@ class SetSarFilter implements Filter {
     required this.sar,
   }) : assert(sar.isNotEmpty);
 
+  /// The input sample aspect ratio
   final String sar;
 
   @override
   String toCli() {
-    return 'setsar=$sar';
+    return 'setsar=sar=$sar';
   }
 }

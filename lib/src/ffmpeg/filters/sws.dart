@@ -1,3 +1,20 @@
+/// Options include
+/// `fastBilinear`
+/// `bilinear`
+/// `bicubic`
+/// `experimental`
+/// `neighbor`
+/// `area`
+/// `bicublin`
+/// `gauss`
+/// `sinc`
+/// `lanczos`
+/// `spline`
+/// `printInfo`
+/// `acurateRnd`
+/// `fullChromaInt`
+/// `fullChromaInp`
+/// `bitexact`
 class SwsFlag {
   static const fastBilinear = SwsFlag._('fast_bilinear');
   static const bilinear = SwsFlag._('bilinear');

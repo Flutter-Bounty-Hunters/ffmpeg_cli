@@ -28,12 +28,25 @@ class TPadFilter implements Filter {
   })  : assert(startMode == null || startMode == 'add' || startMode == 'clone'),
         assert(stopMode == null || stopMode == 'add' || stopMode == 'clone');
 
+  /// Number of frames to add before video content.
   final int? start;
+
+  /// Number of frames to add after video content.
   final int? stop;
+
+  /// Time delay added before playing the stream
   final Duration? startDuration;
+
+  /// Time delay added after end of the stream
   final Duration? stopDuration;
+
+  /// Kind of frames added to beginning of stream
   final String? startMode;
+
+  /// Kind of frames added to end of stream
   final String? stopMode;
+
+  /// Time delay added after end of the stream
   final String? color;
 
   @override

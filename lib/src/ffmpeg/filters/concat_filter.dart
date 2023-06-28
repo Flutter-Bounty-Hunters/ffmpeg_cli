@@ -11,8 +11,13 @@ class ConcatFilter implements Filter {
         assert(outputVideoStreamCount >= 0),
         assert(outputAudioStreamCount >= 0);
 
+  /// Number of segments (defaults to 2)
   final int segmentCount;
+
+  /// Number of output video streams
   final int outputVideoStreamCount;
+
+  /// Number of output audio streams
   final int outputAudioStreamCount;
 
   @override

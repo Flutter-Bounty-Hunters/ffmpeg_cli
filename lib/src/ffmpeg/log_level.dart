@@ -1,3 +1,13 @@
+/// The log level to be used, options include
+/// `quiet`
+/// `panic`
+/// `fatal`
+/// `error`
+/// `warning`
+/// `info`
+/// `verbose`
+/// `debug`
+/// `trace`
 enum LogLevel {
   quiet,
   panic,

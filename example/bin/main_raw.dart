@@ -59,15 +59,17 @@ void main() async {
             const FfmpegStream(videoId: "[comp_0_v]", audioId: "[comp_0_a]"),
           ],
         ),
+        FilterChain(inputs: [], filters: [
+          FpsFilter(fps: 60),
+        ], outputs: [])
       ],
     ),
     outputFilepath: "output/test_render.mp4",
   );
 
-  print(CropFilter(width: 585, height: 1080).toCli());
-
   print('');
   print('Expected command input: ');
+  print(cliCommand.toCli());
   print(cliCommand.expectedCliInput());
   print('');
 

@@ -187,8 +187,9 @@ class FilterChain {
   ///
   /// Example:
   /// [0:0] trim=start='10':end='15' [out_v]
-  String toCli() =>
-      '${inputs.map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+  String toCli() {
+    return '${inputs.map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+  }
 }
 
 /// A single video/audio stream pair within an FFMPEG filter graph.
