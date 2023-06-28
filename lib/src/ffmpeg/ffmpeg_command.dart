@@ -53,7 +53,8 @@ class FfmpegCommand {
   /// passed to a `Process` for execution.
   List<String> toCli() {
     if (filterGraph.chains.isEmpty) {
-      throw Exception('Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
+      throw Exception(
+          'Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
           ' direct copy of an asset, you\'ll need a different tool.');
     }
 
@@ -61,7 +62,7 @@ class FfmpegCommand {
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
         '-${arg.name}',
-        arg.value,
+        if (arg.value != null) arg.value!,
       ],
       '-filter_complex', filterGraph.toCli(), // filter graph
       outputFilepath,
@@ -99,7 +100,8 @@ class FfmpegInput {
   /// Configures an FFMPEG input for a virtual device.
   ///
   /// See the FFMPEG docs for more information.
-  FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
+  FfmpegInput.virtualDevice(String device)
+      : args = ['-f', 'lavfi', '-i', device];
 
   const FfmpegInput(this.args);
 
@@ -113,7 +115,10 @@ class FfmpegInput {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is FfmpegInput && runtimeType == other.runtimeType && toCli() == other.toCli();
+      identical(this, other) ||
+      other is FfmpegInput &&
+          runtimeType == other.runtimeType &&
+          toCli() == other.toCli();
 
   @override
   int get hashCode => toCli().hashCode;
@@ -121,17 +126,18 @@ class FfmpegInput {
 
 /// An argument that is passed to the FFMPEG CLI command.
 class CliArg {
-  CliArg.logLevel(LogLevel level) : this(name: 'loglevel', value: level.toFfmpegString());
+  CliArg.logLevel(LogLevel level)
+      : this(name: 'loglevel', value: level.toFfmpegString());
 
   const CliArg({
     required this.name,
-    required this.value,
+    this.value,
   });
 
   final String name;
-  final String value;
+  final String? value;
 
-  String toCli() => '-$name $value';
+  String toCli() => '-$name ${value ?? ' '}'.trimRight();
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
@@ -199,7 +205,8 @@ class FfmpegStream {
   const FfmpegStream({
     this.videoId,
     this.audioId,
-  }) : assert(videoId != null || audioId != null, "FfmpegStream must include a videoId, or an audioId.");
+  }) : assert(videoId != null || audioId != null,
+            "FfmpegStream must include a videoId, or an audioId.");
 
   /// Handle to a video stream, e.g., "[0:v]".
   final String? videoId;
