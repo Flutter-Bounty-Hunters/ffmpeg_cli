@@ -10,6 +10,7 @@ class SetPtsFilter implements Filter {
 
   const SetPtsFilter({required this.pts});
 
+  /// The presentation timestamp in input
   final String pts;
 
   @override
@@ -22,6 +23,7 @@ class ASetPtsFilter implements Filter {
 
   const ASetPtsFilter({required this.pts});
 
+  /// The presentation timestamp in input
   final String pts;
 
   @override

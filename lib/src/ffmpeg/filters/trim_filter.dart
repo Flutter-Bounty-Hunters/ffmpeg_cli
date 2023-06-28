@@ -9,8 +9,13 @@ class TrimFilter implements Filter {
     this.duration,
   });
 
+  /// The time of the start of the kept section
   final Duration? start;
+
+  /// The time of the first frame that will be dropped
   final Duration? end;
+
+  /// The maximum duration of the output in seconds
   final Duration? duration;
 
   @override
@@ -37,8 +42,13 @@ class ATrimFilter implements Filter {
     this.duration,
   });
 
+  /// The time of the start of the kept section
   final Duration? start;
+
+  /// The time of the first frame that will be dropped
   final Duration? end;
+
+  /// The maximum duration of the output in seconds
   final Duration? duration;
 
   @override

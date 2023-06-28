@@ -1,6 +1,6 @@
 import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 
-/// Copies the input video stream to the output video stream.
+/// Copies the input video stream (unchanged) to the output video stream.
 class CopyFilter implements Filter {
   const CopyFilter();
 
@@ -10,7 +10,7 @@ class CopyFilter implements Filter {
   }
 }
 
-/// Copies the input audio stream to the output audio stream.
+/// Copies the input audio stream (unchanged) to the output audio stream.
 class ACopyFilter implements Filter {
   const ACopyFilter();
 

@@ -30,12 +30,18 @@ class Ffmpeg {
 ///
 /// `outputFilepath`  is the path to where the final video should be stored
 class FfmpegCommand {
-  const FfmpegCommand({
+  const FfmpegCommand.complex({
     this.inputs = const [],
     this.args = const [],
     required this.filterGraph,
     required this.outputFilepath,
   });
+
+  const FfmpegCommand.simple({
+    this.inputs = const [],
+    this.args = const [],
+    required this.outputFilepath,
+  }) : filterGraph = null;
 
   /// FFMPEG command inputs, such as assets and virtual devices.
   final List<FfmpegInput> inputs;
@@ -44,7 +50,7 @@ class FfmpegCommand {
   final List<CliArg> args;
 
   /// The graph of filters that produce the final video.
-  final FilterGraph filterGraph;
+  final FilterGraph? filterGraph;
 
   /// The file path for the rendered video.
   final String outputFilepath;
@@ -52,18 +58,16 @@ class FfmpegCommand {
   /// Converts this command to a series of CLI arguments, which can be
   /// passed to a `Process` for execution.
   List<String> toCli() {
-    if (filterGraph.chains.isEmpty) {
-      throw Exception('Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
-          ' direct copy of an asset, you\'ll need a different tool.');
-    }
-
     return [
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
-        '-${arg.name}',
-        arg.value,
+        "-${arg.name}",
+        if (arg.value != null) arg.value!
       ],
-      '-filter_complex', filterGraph.toCli(), // filter graph
+      if (filterGraph != null) ...[
+        '-filter_complex',
+        filterGraph!.toCli(),
+      ],
       outputFilepath,
     ];
   }
@@ -81,8 +85,10 @@ class FfmpegCommand {
     for (final arg in args) {
       buffer.writeln('  ${arg.toCli()}');
     }
-    buffer.writeln('  -filter_complex ');
-    buffer.writeln(filterGraph.toCli(indent: '    '));
+    if (filterGraph != null) {
+      buffer.writeln('  -filter_complex ');
+      buffer.writeln(filterGraph!.toCli(indent: '    '));
+    }
     buffer.writeln('  $outputFilepath');
 
     return buffer.toString();
@@ -97,7 +103,7 @@ class FfmpegInput {
   FfmpegInput.asset(assetPath) : args = ['-i', assetPath];
 
   /// Configures an FFMPEG input for a virtual device.
-  ///
+  //
   /// See the FFMPEG docs for more information.
   FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
 
@@ -125,13 +131,13 @@ class CliArg {
 
   const CliArg({
     required this.name,
-    required this.value,
+    this.value,
   });
 
   final String name;
-  final String value;
+  final String? value;
 
-  String toCli() => '-$name $value';
+  String toCli() => '-$name ${(value != null) ?  value : ""}';
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
@@ -159,9 +165,9 @@ class FilterGraph {
 /// those filters then produce some number of output streams.
 class FilterChain {
   const FilterChain({
-    required this.inputs,
+    this.inputs = const [],
     required this.filters,
-    required this.outputs,
+    this.outputs = const [],
   });
 
   /// Streams that flow into the [filters].
@@ -181,8 +187,9 @@ class FilterChain {
   ///
   /// Example:
   /// [0:0] trim=start='10':end='15' [out_v]
-  String toCli() =>
-      '${inputs.map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+  String toCli() {
+    return '${(inputs).map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${(outputs).join(' ')}';
+  }
 }
 
 /// A single video/audio stream pair within an FFMPEG filter graph.

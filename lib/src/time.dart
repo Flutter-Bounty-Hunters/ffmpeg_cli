@@ -177,10 +177,10 @@ enum FfmpegTimeUnit {
   microseconds,
 }
 
-class FfmpegTimeBase {
+//class FfmpegTimeBase {
   // TODO:
-}
+//}
 
-class FfmpegTimestamp {
+//class FfmpegTimestamp {
   // TODO:
-}
+//}

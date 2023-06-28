@@ -8,8 +8,8 @@ import 'package:ffmpeg_cli/ffmpeg_cli.dart';
 /// Manually configures an [FfmpegCommand], without using the help
 /// of an [FfmpegBuilder].
 void main() async {
-  // Create the FFMPEG command so we can run it.
-  final cliCommand = FfmpegCommand(
+  // Create an FFMPEG complex command so we can run it with filters
+  final cliCommand = FfmpegCommand.complex(
     inputs: [
       // These assets are passed to FFMPEG with the input "-i" flag.
       // Each input is auto-assigned stream IDs by FFMPEG, e.g.:

@@ -1,3 +1,6 @@
+/// Used to generate color in the correct sequence for FFMPEG
+///
+/// FFMPEG uses `0xRRGGBB[AA]`
 class FfmpegColor {
   static FfmpegColor parse(String color) => FfmpegColor(int.parse(color));
 
@@ -11,7 +14,7 @@ class FfmpegColor {
 
   String _computeAlphaHex() => (color >> 24).toRadixString(16).padLeft(2, '0');
 
-  // FFMPEG displays colors as 0xRRGGBB[AA] (as well as some other formats)
+  // FFMPEG displays colors as `0xRRGGBB[AA]` (as well as some other formats)
   String toCli() => '0x${_computeRGBHex()}${_computeAlphaHex()}';
 
   @override
