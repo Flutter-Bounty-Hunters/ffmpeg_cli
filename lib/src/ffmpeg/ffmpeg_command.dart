@@ -33,7 +33,7 @@ class FfmpegCommand {
   const FfmpegCommand({
     this.inputs = const [],
     this.args = const [],
-    required this.filterGraph,
+    this.filterGraph,
     required this.outputFilepath,
   });
 
@@ -44,7 +44,7 @@ class FfmpegCommand {
   final List<CliArg> args;
 
   /// The graph of filters that produce the final video.
-  final FilterGraph filterGraph;
+  final FilterGraph? filterGraph;
 
   /// The file path for the rendered video.
   final String outputFilepath;
@@ -52,19 +52,14 @@ class FfmpegCommand {
   /// Converts this command to a series of CLI arguments, which can be
   /// passed to a `Process` for execution.
   List<String> toCli() {
-    if (filterGraph.chains.isEmpty) {
-      throw Exception(
-          'Filter graph doesn\'t have any filter chains. Can\'t create CLI command. If you want to make a'
-          ' direct copy of an asset, you\'ll need a different tool.');
-    }
-
     return [
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
         '-${arg.name}',
         if (arg.value != null) arg.value!,
       ],
-      '-filter_complex', filterGraph.toCli(), // filter graph
+      if (filterGraph != null) '-filter_complex',
+      if (filterGraph != null) filterGraph!.toCli(),
       outputFilepath,
     ];
   }
@@ -82,8 +77,10 @@ class FfmpegCommand {
     for (final arg in args) {
       buffer.writeln('  ${arg.toCli()}');
     }
-    buffer.writeln('  -filter_complex ');
-    buffer.writeln(filterGraph.toCli(indent: '    '));
+    if (filterGraph != null) {
+      buffer.writeln('  -filter_complex ');
+      buffer.writeln(filterGraph!.toCli(indent: '    '));
+    }
     buffer.writeln('  $outputFilepath');
 
     return buffer.toString();

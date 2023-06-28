@@ -59,9 +59,6 @@ void main() async {
             const FfmpegStream(videoId: "[comp_0_v]", audioId: "[comp_0_a]"),
           ],
         ),
-        FilterChain(inputs: [], filters: [
-          FpsFilter(fps: 60),
-        ], outputs: [])
       ],
     ),
     outputFilepath: "output/test_render.mp4",
