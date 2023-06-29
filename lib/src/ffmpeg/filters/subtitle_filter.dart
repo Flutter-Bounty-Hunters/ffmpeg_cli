@@ -4,7 +4,10 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 ///
 /// Requires libass library to be compiled with FFmpeg
 class SubtitleFilter implements Filter {
-  SubtitleFilter({required this.filename, this.forceStyle});
+  SubtitleFilter({
+    required this.filename,
+    this.forceStyle,
+  });
 
   /// Path to where the subtitle file is located
   final String filename;

@@ -4,18 +4,17 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 ///
 /// First video stream is the "main" and the second video stream is the "overlay".
 class OverlayFilter implements Filter {
-  OverlayFilter(
-      {this.x,
-      this.y,
-      this.eofAction,
-      this.shortest,
-      this.overlayW,
-      this.overlayH,
-      this.n,
-      this.t})
-      : assert(shortest == null || shortest == 1 || shortest == 0),
-        assert(eofAction == null ||
-            const ['repeat', 'endall', 'pass'].contains(eofAction));
+  OverlayFilter({
+    this.x,
+    this.y,
+    this.eofAction,
+    this.shortest,
+    this.overlayW,
+    this.overlayH,
+    this.inputFrameCount,
+    this.timestamp,
+  })  : assert(shortest == null || shortest == 1 || shortest == 0),
+        assert(eofAction == null || const ['repeat', 'endall', 'pass'].contains(eofAction));
 
   /// x-position of the image taken from the top left corner
   final int? x;
@@ -36,10 +35,10 @@ class OverlayFilter implements Filter {
   final int? overlayH;
 
   /// The number of input frames
-  final int? n;
+  final int? inputFrameCount;
 
   /// The timestamp of when the overlay is displayed
-  final Duration? t;
+  final Duration? timestamp;
 
   @override
   String toCli() {
@@ -50,8 +49,8 @@ class OverlayFilter implements Filter {
       if (shortest != null) "shortest=$shortest",
       if (overlayW != null) "overlay_w=$overlayW",
       if (overlayH != null) "overlay_h=$overlayH",
-      if (n != null) "n=$n",
-      if (t != null) "t=${t!.inSeconds}"
+      if (inputFrameCount != null) "n=$inputFrameCount",
+      if (timestamp != null) "t=${timestamp!.inSeconds}"
     ];
     return 'overlay=${properties.join(":")}';
   }

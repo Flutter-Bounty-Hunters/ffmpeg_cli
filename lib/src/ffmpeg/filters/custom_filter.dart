@@ -4,7 +4,9 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 /// CLI filter, in the case that such a filter is not currently
 /// available as a `Filter` in this package.
 class CustomFilter implements Filter {
-  CustomFilter(this.cliValue) : assert(cliValue.isNotEmpty);
+  CustomFilter(
+    this.cliValue,
+  ) : assert(cliValue.isNotEmpty);
 
   /// Filter (any filters that are currently not available as a `Filter`)
   final String cliValue;

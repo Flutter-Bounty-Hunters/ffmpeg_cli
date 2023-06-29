@@ -12,8 +12,7 @@ void main() async {
 
   final butterflyStream = commandBuilder.addAsset("assets/Butterfly-209.mp4");
   final beeStream = commandBuilder.addAsset("assets/bee.mp4");
-  final outputStream =
-      commandBuilder.createStream(hasVideo: true, hasAudio: true);
+  final outputStream = commandBuilder.createStream(hasVideo: true, hasAudio: true);
 
   commandBuilder.addFilterChain(
     // We combine the two example videos into one, by using a

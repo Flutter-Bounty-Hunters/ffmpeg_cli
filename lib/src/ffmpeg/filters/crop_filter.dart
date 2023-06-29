@@ -2,7 +2,12 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 
 /// Crops the input video to given dimensions.
 class CropFilter implements Filter {
-  const CropFilter({required this.width, required this.height, this.x, this.y});
+  const CropFilter({
+    required this.width,
+    required this.height,
+    this.x,
+    this.y,
+  });
 
   /// Width of the output rectangle
   final int width;

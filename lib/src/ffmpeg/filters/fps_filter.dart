@@ -10,10 +10,8 @@ class FpsFilter implements Filter {
     this.round,
     this.eofAction,
   })  : assert(fps > 0),
-        assert(round == null ||
-            const ['zero', 'inf', 'down', 'up', 'near'].contains(round)),
-        assert(
-            eofAction == null || const ['round', 'pass'].contains(eofAction));
+        assert(round == null || const ['zero', 'inf', 'down', 'up', 'near'].contains(round)),
+        assert(eofAction == null || const ['round', 'pass'].contains(eofAction));
 
   /// The desired output frame rate (default is 25)
   final int fps;

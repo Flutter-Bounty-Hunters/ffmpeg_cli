@@ -50,11 +50,58 @@ class FadeFilter implements Filter {
   }
 }
 
+/// Options include
+/// `tri`
+/// `qsin`
+/// `hsin`
+/// `esin`
+/// `log`
+/// `ipar`
+/// `qua`
+/// `cub`
+/// `squ`
+/// `cbr`
+/// `par`
+/// `exp`
+/// `iqsin`
+/// `ihsin`
+/// `dese`
+/// `desi`
+/// `losi`
+/// `sinc`
+/// `isinc`
+/// `nofade`
+enum AFadeCurve {
+  tri,
+  qsin,
+  hsin,
+  esin,
+  log,
+  ipar,
+  qua,
+  cub,
+  squ,
+  cbr,
+  par,
+  exp,
+  iqsin,
+  ihsin,
+  dese,
+  desi,
+  losi,
+  sinc,
+  isinc,
+  nofade
+}
+
 /// Fades a given audio stream.
 class AFadeFilter implements Filter {
-  const AFadeFilter(
-      {required this.type, this.startTime, this.duration, this.curve})
-      : assert(type == 'in' || type == 'out');
+  const AFadeFilter({
+    required this.type,
+    this.startTime,
+    this.duration,
+    this.curve,
+  }) : assert(type == 'in' || type == 'out');
 
   /// Effect type (default is in)
   final String type;

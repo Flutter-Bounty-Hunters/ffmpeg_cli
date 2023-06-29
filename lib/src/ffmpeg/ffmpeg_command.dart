@@ -58,8 +58,10 @@ class FfmpegCommand {
         '-${arg.name}',
         if (arg.value != null) arg.value!,
       ],
-      if (filterGraph != null) '-filter_complex',
-      if (filterGraph != null) filterGraph!.toCli(),
+      if (filterGraph != null) ...[
+        '-filter_complex',
+        filterGraph!.toCli(),
+      ],
       outputFilepath,
     ];
   }
@@ -97,8 +99,7 @@ class FfmpegInput {
   /// Configures an FFMPEG input for a virtual device.
   ///
   /// See the FFMPEG docs for more information.
-  FfmpegInput.virtualDevice(String device)
-      : args = ['-f', 'lavfi', '-i', device];
+  FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
 
   const FfmpegInput(this.args);
 
@@ -112,10 +113,7 @@ class FfmpegInput {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FfmpegInput &&
-          runtimeType == other.runtimeType &&
-          toCli() == other.toCli();
+      identical(this, other) || other is FfmpegInput && runtimeType == other.runtimeType && toCli() == other.toCli();
 
   @override
   int get hashCode => toCli().hashCode;
@@ -123,8 +121,7 @@ class FfmpegInput {
 
 /// An argument that is passed to the FFMPEG CLI command.
 class CliArg {
-  CliArg.logLevel(LogLevel level)
-      : this(name: 'loglevel', value: level.toFfmpegString());
+  CliArg.logLevel(LogLevel level) : this(name: 'loglevel', value: level.toFfmpegString());
 
   const CliArg({
     required this.name,
@@ -203,8 +200,7 @@ class FfmpegStream {
   const FfmpegStream({
     this.videoId,
     this.audioId,
-  }) : assert(videoId != null || audioId != null,
-            "FfmpegStream must include a videoId, or an audioId.");
+  }) : assert(videoId != null || audioId != null, "FfmpegStream must include a videoId, or an audioId.");
 
   /// Handle to a video stream, e.g., "[0:v]".
   final String? videoId;
