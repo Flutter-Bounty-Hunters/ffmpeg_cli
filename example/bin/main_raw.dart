@@ -66,7 +66,6 @@ void main() async {
 
   print('');
   print('Expected command input: ');
-  print(cliCommand.toCli());
   print(cliCommand.expectedCliInput());
   print('');
 
