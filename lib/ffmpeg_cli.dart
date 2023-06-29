@@ -29,3 +29,4 @@ export 'src/ffmpeg/filters/tpad_filter.dart';
 export 'src/ffmpeg/filters/trim_filter.dart';
 export 'src/ffmpeg/filters/volume_filter.dart';
 export 'src/ffmpeg/filters/afade_curve.dart';
+export 'src/ffmpeg/filters/subtitle_filter.dart';

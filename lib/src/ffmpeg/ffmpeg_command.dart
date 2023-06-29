@@ -162,20 +162,20 @@ class FilterGraph {
 /// those filters then produce some number of output streams.
 class FilterChain {
   const FilterChain({
-    required this.inputs,
+    this.inputs,
     required this.filters,
-    required this.outputs,
+    this.outputs,
   });
 
   /// Streams that flow into the [filters].
-  final List<FfmpegStream> inputs;
+  final List<FfmpegStream>? inputs;
 
   /// Filters that apply to the [inputs], and generate the [outputs].
   final List<Filter> filters;
 
   /// New streams that flow out of the [filters], after applying those
   /// [filters] to the [inputs].
-  final List<FfmpegStream> outputs;
+  final List<FfmpegStream>? outputs;
 
   /// Formats this filter chain for the FFMPEG CLI.
   ///
@@ -185,7 +185,7 @@ class FilterChain {
   /// Example:
   /// [0:0] trim=start='10':end='15' [out_v]
   String toCli() {
-    return '${inputs.map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${outputs.join(' ')}';
+    return '${(inputs ?? []).map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${(outputs ?? []).join(' ')}';
   }
 }
 
