@@ -2,20 +2,6 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 import 'package:ffmpeg_cli/src/time.dart';
 
 /// Adds padding frames to a given video stream.
-///
-/// `start`   number of frames to add before video content.
-///
-/// `stop`    number of frames to add after video content.
-///
-/// `start_mode`  kind of frames added to beginning of stream
-///
-/// `stop_mode`   kind of frames added to end of stream
-///
-/// `start_duration`  time delay added before playing the stream
-///
-/// `stop_duration`   time delay added after end of the stream
-///
-/// `color`   color of padded frames.
 class TPadFilter implements Filter {
   const TPadFilter({
     this.start,
