@@ -46,7 +46,7 @@ class FadeFilter implements Filter {
       if (color != null) 'color=$color',
     ];
 
-    return 'fade${properties.isNotEmpty ? '=${properties.join(':')}' : ''}';
+    return 'fade=${properties.join(':')}';
   }
 }
 
