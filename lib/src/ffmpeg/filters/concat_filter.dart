@@ -22,6 +22,8 @@ class ConcatFilter implements Filter {
 
   @override
   String toCli() {
-    return 'concat=${(segmentCount != null) ? "n=$segmentCount:" : ""}v=$outputVideoStreamCount:a=$outputAudioStreamCount';
+    return (segmentCount != null)
+    ? 'concat=n=$segmentCount:v=$outputVideoStreamCount:a=$outputAudioStreamCount'
+    : 'concat=v=$outputVideoStreamCount:a=$outputAudioStreamCount'; 
   }
 }

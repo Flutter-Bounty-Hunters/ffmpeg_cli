@@ -15,6 +15,8 @@ class AMixFilter implements Filter {
 
   @override
   String toCli() {
-    return 'amix${(inputCount != null) ? "=inputs=$inputCount" : ""}';
+    return (inputCount != null)
+      ? 'amix=input=${inputCount!}' 
+      : 'amix';
   }
 }
