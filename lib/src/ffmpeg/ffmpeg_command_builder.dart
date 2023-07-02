@@ -147,7 +147,7 @@ class FfmpegBuilder {
     }
 
     ffmpegBuilderLog.info('Filter chains: $_filterChains');
-    return FfmpegCommand(
+    return FfmpegCommand.complex(
       inputs: _inputs.keys.toList(),
       args: args,
       filterGraph: FilterGraph(

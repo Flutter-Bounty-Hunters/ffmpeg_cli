@@ -8,7 +8,7 @@ void main() {
         const outputStream =
             FfmpegStream(videoId: "[final_v]", audioId: "[final_a]");
 
-        final command = FfmpegCommand(
+        final command = FfmpegCommand.complex(
           inputs: [
             FfmpegInput.asset("assets/intro.mp4"),
             FfmpegInput.asset("assets/content.mp4"),

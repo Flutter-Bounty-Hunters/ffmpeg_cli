@@ -30,12 +30,18 @@ class Ffmpeg {
 ///
 /// `outputFilepath`  is the path to where the final video should be stored
 class FfmpegCommand {
-  const FfmpegCommand({
+  const FfmpegCommand.complex({
     this.inputs = const [],
     this.args = const [],
-    this.filterGraph,
+    required this.filterGraph,
     required this.outputFilepath,
   });
+
+  const FfmpegCommand.simple({
+    this.inputs = const [], 
+    this.args = const [],
+    required this.outputFilepath,
+  }) : filterGraph = null;
 
   /// FFMPEG command inputs, such as assets and virtual devices.
   final List<FfmpegInput> inputs;
@@ -65,6 +71,8 @@ class FfmpegCommand {
       outputFilepath,
     ];
   }
+
+
 
   /// Returns a string that represents what this command is expected to
   /// look like when run by a `Process`.
