@@ -61,8 +61,7 @@ class FfmpegCommand {
     return [
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
-        '-${arg.name}',
-        if (arg.value != null) arg.value!,
+        arg.toCli()
       ],
       if (filterGraph != null) ...[
         '-filter_complex',
@@ -139,7 +138,7 @@ class CliArg {
   final String name;
   final String? value;
 
-  String toCli() => '-$name ${value ?? ' '}'.trimRight();
+  String toCli() => '-$name ${value ?? ""}'.trimRight();
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
@@ -167,20 +166,20 @@ class FilterGraph {
 /// those filters then produce some number of output streams.
 class FilterChain {
   const FilterChain({
-    this.inputs,
+    this.inputs = const [],
     required this.filters,
-    this.outputs,
+    this.outputs = const [],
   });
 
   /// Streams that flow into the [filters].
-  final List<FfmpegStream>? inputs;
+  final List<FfmpegStream> inputs;
 
   /// Filters that apply to the [inputs], and generate the [outputs].
   final List<Filter> filters;
 
   /// New streams that flow out of the [filters], after applying those
   /// [filters] to the [inputs].
-  final List<FfmpegStream>? outputs;
+  final List<FfmpegStream> outputs;
 
   /// Formats this filter chain for the FFMPEG CLI.
   ///
@@ -190,7 +189,7 @@ class FilterChain {
   /// Example:
   /// [0:0] trim=start='10':end='15' [out_v]
   String toCli() {
-    return '${(inputs ?? []).map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${(outputs ?? []).join(' ')}';
+    return '${(inputs).map((stream) => stream.toString()).join(' ')} ${filters.map((filter) => filter.toCli()).join(', ')} ${(outputs).join(' ')}';
   }
 }
 
