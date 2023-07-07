@@ -61,7 +61,7 @@ class FfmpegCommand {
     return [
       for (final input in inputs) ...input.args,
       for (final arg in args) ...[
-        arg.toCli()
+        ...arg.toCli()
       ],
       if (filterGraph != null) ...[
         '-filter_complex',
@@ -102,7 +102,7 @@ class FfmpegInput {
   FfmpegInput.asset(assetPath) : args = ['-i', assetPath];
 
   /// Configures an FFMPEG input for a virtual device.
-  ///
+  //
   /// See the FFMPEG docs for more information.
   FfmpegInput.virtualDevice(String device) : args = ['-f', 'lavfi', '-i', device];
 
@@ -136,7 +136,7 @@ class CliArg {
   final String name;
   final String? value;
 
-  String toCli() => '-$name ${value ?? ""}'.trimRight();
+  List<String> toCli() => ['-$name', if (value != null) value!];
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets

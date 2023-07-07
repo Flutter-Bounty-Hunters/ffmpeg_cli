@@ -28,7 +28,6 @@ void main() async {
       const CliArg(name: 'map', value: "[comp_0_a]"),
       // TODO: need to generalize knowledge of when to use vsync -2
       const CliArg(name: 'vsync', value: '2'),
-      const CliArg(name: 'y')
     ],
     filterGraph: FilterGraph(
       chains: [
@@ -62,6 +61,7 @@ void main() async {
     ),
     outputFilepath: "output/test_render.mp4",
   );
+
   print('');
   print('Expected command input: ');
   print(cliCommand.expectedCliInput());
