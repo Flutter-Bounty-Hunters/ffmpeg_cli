@@ -62,7 +62,6 @@ void main() async {
     ),
     outputFilepath: "output/test_render.mp4",
   );
-
   print('');
   print('Expected command input: ');
   print(cliCommand.expectedCliInput());

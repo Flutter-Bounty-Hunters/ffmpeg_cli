@@ -60,7 +60,9 @@ class FfmpegCommand {
   List<String> toCli() {
     return [
       for (final input in inputs) ...input.args,
-      for (final arg in args) ...[arg.toCli()],
+      for (final arg in args) ...[
+        arg.toCli()
+      ],
       if (filterGraph != null) ...[
         '-filter_complex',
         filterGraph!.toCli(),
