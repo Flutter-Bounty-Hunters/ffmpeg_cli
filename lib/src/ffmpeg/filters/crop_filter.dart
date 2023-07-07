@@ -22,7 +22,7 @@ class CropFilter implements Filter {
   final int? y;
 
   // TODO: keep_aspect
-  
+
   // TODO: exact
 
   @override
