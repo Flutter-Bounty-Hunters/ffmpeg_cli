@@ -1,4 +1,5 @@
 import 'package:ffmpeg_cli/ffmpeg_cli.dart';
+import 'package:ffmpeg_cli/src/ffmpeg/filters/video_size.dart';
 
 /// Resize the input video
 ///
@@ -12,6 +13,7 @@ class ScaleFilter implements Filter {
     this.swsFlags,
     this.param0,
     this.param1,
+    this.size,
   })  : assert(width == null || width >= -1),
         assert(height == null || height >= -1),
         assert(eval == null || eval == 'init' || eval == 'frame'),
@@ -38,6 +40,8 @@ class ScaleFilter implements Filter {
   /// Set libswscale parameter
   final String? param1;
 
+  final VideoSize? size;
+
   // TODO: in_color_matrix
   // TODO: out_color_matrix
   // TODO: in_range
@@ -55,6 +59,7 @@ class ScaleFilter implements Filter {
       if (swsFlags != null) 'sws_flags=${swsFlags!.cliValue}',
       if (param0 != null) 'param0=$param0',
       if (param1 != null) 'param1=$param1',
+      if (size != null) 'size=$size',
     ];
 
     return 'scale=${properties.join(':')}';
