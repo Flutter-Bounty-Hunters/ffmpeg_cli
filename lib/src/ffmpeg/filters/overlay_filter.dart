@@ -4,7 +4,7 @@ import 'package:ffmpeg_cli/src/ffmpeg/ffmpeg_command.dart';
 ///
 /// First video stream is the "main" and the second video stream is the "overlay".
 class OverlayFilter implements Filter {
-  OverlayFilter({
+  const OverlayFilter({
     this.x,
     this.y,
     this.eofAction,
@@ -14,7 +14,7 @@ class OverlayFilter implements Filter {
     this.inputFrameCount,
     this.timestamp,
   })  : assert(shortest == null || shortest == 1 || shortest == 0),
-        assert(eofAction == null || const ['repeat', 'endall', 'pass'].contains(eofAction));
+        assert(eofAction == null || eofAction == 'repeat' || eofAction == 'endall' || eofAction == 'pass');
 
   /// x-position of the image taken from the top left corner
   final int? x;
