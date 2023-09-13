@@ -19,8 +19,6 @@ class SubtitleFilter implements Filter {
 
   @override
   String toCli() {
-    return (forceStyle != null)
-    ? 'subtitles=$filename:force_style=$forceStyle'
-    : 'subtitles=$filename';
+    return (forceStyle != null) ? 'subtitles=$filename:force_style=$forceStyle' : 'subtitles=$filename';
   }
 }
