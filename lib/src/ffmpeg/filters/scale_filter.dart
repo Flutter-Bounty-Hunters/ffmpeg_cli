@@ -1,5 +1,5 @@
 import 'package:ffmpeg_cli/ffmpeg_cli.dart';
-import 'package:ffmpeg_cli/src/ffmpeg/filters/video_size.dart';
+import 'package:ffmpeg_cli/src/ffmpeg/video_size.dart';
 
 /// Resize the input video
 ///

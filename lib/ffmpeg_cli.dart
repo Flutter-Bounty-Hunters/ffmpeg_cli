@@ -9,6 +9,7 @@ export 'src/ffprobe/ffprobe_json.dart';
 export 'src/ffmpeg/ffmpeg_command.dart';
 export 'src/ffmpeg/ffmpeg_command_builder.dart';
 export 'src/ffmpeg/log_level.dart';
+export 'src/ffmpeg/video_size.dart';
 
 // FFMPEG filters
 export 'src/ffmpeg/filters/audio_mix_filter.dart';
