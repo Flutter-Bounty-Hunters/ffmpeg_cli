@@ -60,7 +60,10 @@ class FfmpegCommand {
   List<String> toCli() {
     return [
       for (final input in inputs) ...input.args,
-      for (final arg in args) ...[...arg.toCli()],
+      for (final arg in args) ...[
+        "-${arg.name}",
+        if (arg.value != null) arg.value!
+      ],
       if (filterGraph != null) ...[
         '-filter_complex',
         filterGraph!.toCli(),
@@ -134,7 +137,7 @@ class CliArg {
   final String name;
   final String? value;
 
-  List<String> toCli() => ['-$name', if (value != null) value!];
+  String toCli() => '-$name ${(value != null) ?  value : ""}';
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
