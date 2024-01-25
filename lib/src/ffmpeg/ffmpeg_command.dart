@@ -7,9 +7,12 @@ import 'package:ffmpeg_cli/src/ffmpeg/log_level.dart';
 /// Executes FFMPEG commands from Dart.
 class Ffmpeg {
   /// Executes the given [command].
-  Future<Process> run(FfmpegCommand command) {
+  ///
+  /// Provide a [ffmpegPath] to customize the path of the ffmpeg cli.
+  /// If `null`, the "ffmpeg" from path is used.
+  Future<Process> run(FfmpegCommand command, {String? ffmpegPath}) {
     return Process.start(
-      'ffmpeg',
+      ffmpegPath ?? 'ffmpeg',
       command.toCli(),
     );
   }
@@ -60,10 +63,7 @@ class FfmpegCommand {
   List<String> toCli() {
     return [
       for (final input in inputs) ...input.args,
-      for (final arg in args) ...[
-        "-${arg.name}",
-        if (arg.value != null) arg.value!
-      ],
+      for (final arg in args) ...["-${arg.name}", if (arg.value != null) arg.value!],
       if (filterGraph != null) ...[
         '-filter_complex',
         filterGraph!.toCli(),
@@ -137,7 +137,7 @@ class CliArg {
   final String name;
   final String? value;
 
-  String toCli() => '-$name ${(value != null) ?  value : ""}';
+  String toCli() => '-$name ${(value != null) ? value : ""}';
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
