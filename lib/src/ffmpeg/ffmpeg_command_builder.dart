@@ -135,8 +135,14 @@ class FfmpegBuilder {
   /// and returns an [FfmpegCommand] that generates a corresponding video,
   /// which is rendered to the given [outputFilepath].
   ///
+  /// Provide a [ffmpegPath] to customize the path of the ffmpeg cli.
+  /// For example, [ffmpegPath] might be `/opt/homebrew/bin/ffmpeg` on macOS
+  /// or `C:\ffmpeg\ffmpeg.exe` on Windows. If `null`, the `ffmpeg`
+  /// from path is used.
+  ///
   /// To run the command, see [FfmpegCommand].
   FfmpegCommand build({
+    String? ffmpegPath,
     required List<CliArg> args,
     FfmpegStream? mainOutStream,
     required String outputFilepath,
@@ -148,6 +154,7 @@ class FfmpegBuilder {
 
     ffmpegBuilderLog.info('Filter chains: $_filterChains');
     return FfmpegCommand.complex(
+      ffmpegPath: ffmpegPath,
       inputs: _inputs.keys.toList(),
       args: args,
       filterGraph: FilterGraph(

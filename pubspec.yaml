@@ -4,9 +4,10 @@ description: Run FFMPEG CLI commands from Dart.
 homepage: https://github.com/Flutter-Bounty-Hunters/ffmpeg_cli
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  collection: ^1.18.0
   json_annotation: ^4.8.1
   logging: ^1.2.0
 

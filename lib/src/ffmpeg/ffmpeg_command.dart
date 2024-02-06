@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 import 'package:ffmpeg_cli/src/ffmpeg/log_level.dart';
 
 /// Dart wrappers for FFMPEG CLI commands, arguments, flags, and filters.
@@ -7,15 +9,11 @@ import 'package:ffmpeg_cli/src/ffmpeg/log_level.dart';
 /// Executes FFMPEG commands from Dart.
 class Ffmpeg {
   /// Executes the given [command].
-  ///
-  /// Provide a [ffmpegPath] to customize the path of the ffmpeg cli.
-  /// For example, [ffmpegPath] might be `/opt/homebrew/bin/ffmpeg` on macOS
-  /// or `C:\ffmpeg\ffmpeg.exe` on Windows. If `null`, the `ffmpeg`
-  /// from path is used.
-  Future<Process> run(FfmpegCommand command, {String? ffmpegPath}) {
+  Future<Process> run(FfmpegCommand command) {
+    final cli = command.toCli();
     return Process.start(
-      ffmpegPath ?? 'ffmpeg',
-      command.toCli(),
+      cli.executable,
+      cli.args,
     );
   }
 }
@@ -36,6 +34,7 @@ class Ffmpeg {
 /// `outputFilepath`  is the path to where the final video should be stored
 class FfmpegCommand {
   const FfmpegCommand.complex({
+    this.ffmpegPath,
     this.inputs = const [],
     this.args = const [],
     required this.filterGraph,
@@ -43,10 +42,18 @@ class FfmpegCommand {
   });
 
   const FfmpegCommand.simple({
+    this.ffmpegPath,
     this.inputs = const [],
     this.args = const [],
     required this.outputFilepath,
   }) : filterGraph = null;
+
+  /// The path of the `ffmpeg` cli executable.
+  ///
+  /// For example, [ffmpegPath] might be `/opt/homebrew/bin/ffmpeg` on macOS
+  /// or `C:\ffmpeg\ffmpeg.exe` on Windows. If `null`, the `ffmpeg`
+  /// from path is used.
+  final String? ffmpegPath;
 
   /// FFMPEG command inputs, such as assets and virtual devices.
   final List<FfmpegInput> inputs;
@@ -62,19 +69,19 @@ class FfmpegCommand {
 
   /// Converts this command to a series of CLI arguments, which can be
   /// passed to a `Process` for execution.
-  List<String> toCli() {
-    return [
-      for (final input in inputs) ...input.args,
-      for (final arg in args) ...[
-        "-${arg.name}",
-        if (arg.value != null) arg.value!
+  CliCommand toCli() {
+    return CliCommand(
+      executable: ffmpegPath ?? 'ffmpeg',
+      args: [
+        for (final input in inputs) ...input.args,
+        for (final arg in args) ...["-${arg.name}", if (arg.value != null) arg.value!],
+        if (filterGraph != null) ...[
+          '-filter_complex',
+          filterGraph!.toCli(),
+        ],
+        outputFilepath,
       ],
-      if (filterGraph != null) ...[
-        '-filter_complex',
-        filterGraph!.toCli(),
-      ],
-      outputFilepath,
-    ];
+    );
   }
 
   /// Returns a string that represents what this command is expected to
@@ -142,7 +149,7 @@ class CliArg {
   final String name;
   final String? value;
 
-  String toCli() => '-$name ${(value != null) ?  value : ""}';
+  String toCli() => '-$name ${(value != null) ? value : ""}';
 }
 
 /// A filter graph that describes how FFMPEG should compose various assets
@@ -258,4 +265,38 @@ class FfmpegStream {
 /// asset happens by way of a filter, e.g., trim, fade, concatenation, etc.
 abstract class Filter {
   String toCli();
+}
+
+/// A command that can be passed to a `Process` for execution.
+class CliCommand {
+  const CliCommand({
+    required this.executable,
+    required this.args,
+  });
+
+  /// The name of the executable.
+  ///
+  /// It can be an executable name to be located from the path,
+  /// a relative path, or an absolute path.
+  final String executable;
+
+  /// The arguments to be passed to the executable.
+  final List<String> args;
+
+  @override
+  String toString() {
+    return '[CliCommand: $executable ${args.join(' ')}]';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is CliCommand &&
+            runtimeType == other.runtimeType &&
+            executable == other.executable &&
+            const DeepCollectionEquality().equals(args, other.args);
+  }
+
+  @override
+  int get hashCode => executable.hashCode ^ args.hashCode;
 }
