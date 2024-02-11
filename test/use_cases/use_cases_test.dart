@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group("FFMPEG", () {
     group("use cases", () {
-      test("creates a video from a group of screenshots", () {
+      test("create a video from a group of screenshots", () {
         final command = FfmpegCommand.simple(
           inputs: [
             // screenshot%d.png represents images named in format screenshot0.png,
@@ -26,7 +26,7 @@ void main() {
             // More info here, https://trac.ffmpeg.org/wiki/Encode/H.264#Encodingfordumbplayers
             const CliArg(name: 'pix_fmt', value: 'yuv420p'),
           ],
-          outputFilepath: 'assets/output/generated_video.mp4',
+          outputFilepath: 'assets/output/movie.mp4',
         );
 
         expect(
@@ -41,13 +41,13 @@ void main() {
               "1",
               "-pix_fmt",
               "yuv420p",
-              "assets/output/generated_video.mp4",
+              "assets/output/movie.mp4",
             ],
           ),
         );
       });
 
-      test("creates a video from a group of screenshots and an audio file", () {
+      test("create a video from a group of screenshots and an audio file", () {
         final command = FfmpegCommand.simple(
           inputs: [
             // screenshot%d.png represents images named in format screenshot0.png,
@@ -71,7 +71,7 @@ void main() {
             // More info here, https://trac.ffmpeg.org/wiki/Encode/H.264#Encodingfordumbplayers
             const CliArg(name: 'pix_fmt', value: 'yuv420p'),
           ],
-          outputFilepath: 'assets/output/generated_video.mp4',
+          outputFilepath: 'assets/output/movie.mp4',
         );
 
         expect(
@@ -88,7 +88,7 @@ void main() {
               "1",
               "-pix_fmt",
               "yuv420p",
-              "assets/output/generated_video.mp4"
+              "assets/output/movie.mp4"
             ],
           ),
         );
