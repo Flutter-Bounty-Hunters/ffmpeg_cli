@@ -117,8 +117,8 @@ void main() {
       test("converts a group of images to a video", () {
         final command = FfmpegCommand.simple(
           inputs: [
-            // file%d.png represents images named like file0.png, file1.png, file2.png, etc.
-            FfmpegInput.asset("assets/images/file%d.png"),
+            // screenshot%d.png represents images named like screenshot0.png, screenshot1.png, screenshot2.png, etc.
+            FfmpegInput.asset("assets/images/screenshot%d.png"),
 
             FfmpegInput.asset("assets/audio/audio.mp3"),
           ],
@@ -127,7 +127,7 @@ void main() {
             const CliArg(name: 'c:a', value: 'aac'),
             const CliArg(name: 'qscale:v', value: '1'),
           ],
-          outputFilepath: 'assets/output/file.mp4',
+          outputFilepath: 'assets/output/generated_video.mp4',
         );
 
         expect(
@@ -136,7 +136,7 @@ void main() {
             executable: 'ffmpeg',
             args: [
               "-i",
-              "assets/images/file%d.png",
+              "assets/images/screenshot%d.png",
               "-i",
               "assets/audio/audio.mp3",
               "-y",
@@ -144,7 +144,7 @@ void main() {
               "aac",
               "-qscale:v",
               "1",
-              "assets/output/file.mp4"
+              "assets/output/generated_video.mp4"
             ],
           ),
         );
