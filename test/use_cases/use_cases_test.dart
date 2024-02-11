@@ -4,18 +4,72 @@ import 'package:test/test.dart';
 void main() {
   group("FFMPEG", () {
     group("use cases", () {
-      test("converts a group of screenshots to a video", () {
+      test("creates a video from a group of screenshots", () {
         final command = FfmpegCommand.simple(
           inputs: [
-            // screenshot%d.png represents images named in format screenshot0.png, screenshot1.png, screenshot2.png, etc.
+            // screenshot%d.png represents images named in format screenshot0.png,
+            // screenshot1.png, etc.
+            FfmpegInput.asset("assets/images/screenshot%d.png"),
+          ],
+          args: [
+            // Used to overwrite an existing output file without asking for
+            // confirmation.
+            const CliArg(name: 'y'),
+
+            // Sets the video quality scale used while video encoding.
+            const CliArg(name: 'qscale:v', value: '1'),
+
+            // Sets the pixel format for the video frames.
+            //
+            // Note: Not always necessary but may need to provide for generated video to
+            // be compatible with QuickTime and most other players.
+            // More info here, https://trac.ffmpeg.org/wiki/Encode/H.264#Encodingfordumbplayers
+            const CliArg(name: 'pix_fmt', value: 'yuv420p'),
+          ],
+          outputFilepath: 'assets/output/generated_video.mp4',
+        );
+
+        expect(
+          command.toCli(),
+          const CliCommand(
+            executable: 'ffmpeg',
+            args: [
+              "-i",
+              "assets/images/screenshot%d.png",
+              "-y",
+              "-qscale:v",
+              "1",
+              "-pix_fmt",
+              "yuv420p",
+              "assets/output/generated_video.mp4",
+            ],
+          ),
+        );
+      });
+
+      test("creates a video from a group of screenshots and an audio file", () {
+        final command = FfmpegCommand.simple(
+          inputs: [
+            // screenshot%d.png represents images named in format screenshot0.png,
+            // screenshot1.png, etc.
             FfmpegInput.asset("assets/images/screenshot%d.png"),
 
             FfmpegInput.asset("assets/audio/audio.mp3"),
           ],
           args: [
+            // Used to overwrite an existing output file without asking for
+            // confirmation.
             const CliArg(name: 'y'),
-            const CliArg(name: 'c:a', value: 'aac'),
+
+            // Sets the video quality scale used while video encoding.
             const CliArg(name: 'qscale:v', value: '1'),
+
+            // Sets the pixel format for the video frames.
+            //
+            // Note: Not always necessary but may need to provide for generated video to
+            // be compatible with QuickTime and most other players.
+            // More info here, https://trac.ffmpeg.org/wiki/Encode/H.264#Encodingfordumbplayers
+            const CliArg(name: 'pix_fmt', value: 'yuv420p'),
           ],
           outputFilepath: 'assets/output/generated_video.mp4',
         );
@@ -30,10 +84,10 @@ void main() {
               "-i",
               "assets/audio/audio.mp3",
               "-y",
-              "-c:a",
-              "aac",
               "-qscale:v",
               "1",
+              "-pix_fmt",
+              "yuv420p",
               "assets/output/generated_video.mp4"
             ],
           ),
