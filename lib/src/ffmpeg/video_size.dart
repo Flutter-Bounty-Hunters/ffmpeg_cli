@@ -1,14 +1,15 @@
-class VideoSize {
-  const VideoSize({
-    required this.width,
-    required this.height,
-  });
+import 'package:ffmpeg_cli/src/ffmpeg/video_size_abbreviation.dart';
 
-  final num width;
-  final num height;
+class VideoSize {
+  const VideoSize({this.width, this.height, this.abbreviation})
+      : assert(width != null && height != null || abbreviation != null);
+
+  final num? width;
+  final num? height;
+  final VideoSizeAbbreviation? abbreviation;
 
   @override
-  String toString() => '[Size]: ${width}x$height';
+  String toString() => abbreviation?.toCli() ?? '${width}x$height';
 
   @override
   bool operator ==(Object other) =>
