@@ -8,8 +8,10 @@ class VideoSize {
   final num? height;
   final VideoSizeAbbreviation? abbreviation;
 
+  String toCli() => abbreviation?.cliValue ?? '${width}x$height';
+
   @override
-  String toString() => abbreviation?.toCli() ?? '${width}x$height';
+  String toString() => "[Size]: ${width}x$height";
 
   @override
   bool operator ==(Object other) =>

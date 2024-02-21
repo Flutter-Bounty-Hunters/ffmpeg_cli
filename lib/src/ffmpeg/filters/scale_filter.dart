@@ -52,14 +52,14 @@ class ScaleFilter implements Filter {
   @override
   String toCli() {
     final properties = [
-      if (width != null) 'width=$width',
-      if (height != null) 'height=$height',
+      if (width != null && size == null) 'width=$width',
+      if (height != null && size == null) 'height=$height',
       if (eval != null) 'eval=$eval',
       if (interl != null) 'interl=$interl',
       if (swsFlags != null) 'sws_flags=${swsFlags!.cliValue}',
       if (param0 != null) 'param0=$param0',
       if (param1 != null) 'param1=$param1',
-      if (size != null) 'size=$size',
+      if (size != null) 'size=${size!.toCli()}',
     ];
 
     return 'scale=${properties.join(':')}';
