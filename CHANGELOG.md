@@ -1,3 +1,6 @@
+## [0.3.0] - Feb, 2024
+[BREAKING] - Made the FFMPEG executable path configurable so that FFMPEG can be used from non-standard locations
+
 ## [0.2.0] - Oct, 2023
 New runner, new filters, filter updates
 
