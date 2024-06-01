@@ -1,0 +1,133 @@
+<!doctype html>
+
+<html lang="en" data-bs-theme="dark" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>{{ package.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {% if package.type == "dart" %}
+  <!-- Dart favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/dart/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/dart/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/dart/favicon-16x16.png">
+  <link rel="manifest" href="images/favicon/dart/site.webmanifest">
+  <link rel="shortcut icon" href="images/favicon/dart/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="images/favicon/dart/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  {% endif %}
+
+  {% if package.type == "flutter" %}
+  <!-- Flutter favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/flutter/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/flutter/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/flutter/favicon-16x16.png">
+  <link rel="manifest" href="images/favicon/flutter/site.webmanifest">
+  <link rel="mask-icon" href="images/favicon/flutter/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="images/favicon/flutter/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="images/favicon/flutter/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  {% endif %}
+
+  <!-- Open Graph Social Media -->
+  <meta property="og:url" content="{{ homepage_url }}" />
+  <meta property="og:title" content="{{ package.title }}" />
+  <meta property="og:description" content="{{ package.description }}" />
+  <meta property="og:image" content="{{ homepage_url }}images/branding/social.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@FlutterBounties" />
+  <meta name="twitter:url" content="{{ homepage_url }}" />
+  <meta name="twitter:title" content="{{ package.title }}" />
+  <meta name="twitter:description" content="{{ package.description }}" />
+  <meta name="twitter:image" content="{{ homepage_url }}images/branding/social.png" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300..700&family=Cutive+Mono&family=Fira+Mono:wght@400;500;700&family=Knewave&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" type="text/css">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/obsidian.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/dart.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  <link rel="stylesheet" href="styles/homepage.css">
+</head>
+
+<body>
+  <div id="hero">
+    {% if package.type == "flutter" %}
+    <img id="flutterLogo" src="images/branding/flutter-logo.svg" height="48">
+    {% else %}
+    <img id="dartLogo" src="images/branding/dart-logo.svg" height="48">
+    {% endif %}
+
+    <div class="top-gap">&nbsp;</div>
+
+    <img id="logo" src="images/branding/logo.png" width="192">
+
+    <span class="title">{{ package.title }}</span>
+    <span class="subtitle">{{ package.description }}</span>
+
+    <div class="middle-gap">&nbsp;</div>
+
+    <div class="latest-version" onclick="copy('{{ package.name }}: ^{{ pub.ffmpeg_cli.version }}')">
+      <span class="dependency-declaration">
+        <span class="name">{{ package.name }}:&nbsp;</span><span class="version">^{{ pub.ffmpeg_cli.version }}</span>
+      </span>
+      <a class="copy-button">
+        <i class="fa-solid fa-copy"></i>
+      </a>
+    </div>
+
+    <div class="social-buttons">
+      {% if package.github != null %}
+      <a href="{{ package.github.url }}" target="_blank" type="button" class="btn btn-primary"><i class="fa-brands fa-github"></i> GitHub</a>
+      {% endif %}
+
+      {% if package.discord != null %}
+      <a href="{{ package.discord }}" target="_blank" type="button" class="btn btn-primary"><i class="fa-brands fa-discord"></i> Discord</a>
+      {% endif %}
+
+      {% if package.sponsorship != null %}
+      <a href="{{ package.sponsorship }}" target="_blank" type="button" class="btn btn-primary"><i class="fa-solid fa-dollar-sign"></i> Sponsor</a>
+      {% endif %}
+
+      <a href="https://pub.dev/packages/{{ package.name }}" target="_blank" type="button" class="btn btn-primary">Pub</a>
+    </div>
+
+    <div class="bottom-gap">&nbsp;</div>
+
+    <div class="built-with-static-shock">
+      This website was built with <a href="https://staticshock.io" target="_blank" class="static-shock">Static Shock!</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Page/article content -->
+    <main class="col-12 col-lg-10 col-xl-8">
+      {{   content   }}
+    </main>
+  </div>
+
+  <footer>
+    You can generate a documentation website just like this one, with <a href="https://staticshock.io" target="_blank" class="static-shock">Static Shock</a>
+  </footer>
+
+  <script>
+    function copy(text) {
+    console.log("Copying text: '" + text + "'");
+      navigator.clipboard.writeText(text);
+    }
+  </script>
+</body>
+</html>
