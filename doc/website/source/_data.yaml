@@ -1,0 +1,21 @@
+homepage_url: https://flutter-bounty-hunters.github.io/ffmpeg_cli/
+
+# Configuration for the package that this website documents.
+package:
+  name: ffmpeg_cli
+  title: FFMPEG CLI
+  description: Run FFMPEG CLI commands from Dart
+  type: dart
+  is_on_pub: true
+  github:
+    url: https://github.com/flutter-bounty-Hunters/ffmpeg_cli
+    organization: flutter-bounty-hunters
+    name: ffmpeg_cli
+  discord: https://discord.gg/8hna2VD32s
+  sponsorship: https://flutterbountyhunters.com
+
+# Configuration of the GitHub plugin for loading info about GitHub repositories.
+github:
+  contributors:
+    repositories:
+      - { organization: flutter-bounty-hunters, name: ffmpeg_cli }

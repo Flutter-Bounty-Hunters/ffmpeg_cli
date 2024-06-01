@@ -1,0 +1,56 @@
+<div class="container">
+<div class="row">
+<div class="col-md-6 col-sm-12">
+<h3>With Flutter Test Robots</h3>
+<pre><code>testWidgets((tester) async {
+  // Setup the test.
+
+  // Press CMD+V (like for a paste).
+  await tester.pressCmdV();
+
+  // Press CMD+ALT+LEFT (jump to start).
+  await tester.pressCmdAltLeftArrow();
+
+  // Verify expectations.
+});
+</code></pre>
+</div>
+<div class="col-md-6 col-sm-12">
+<h3>With Flutter</h3>
+<pre><code>testWidgets((tester) async {
+  // Setup the test.
+
+  // Press CMD+V (like for a paste).
+  await tester.sendKeyDownEvent(
+    LogicalKeyboardKey.meta,
+  );
+  await tester.sendKeyEvent(
+    LogicalKeyboardKey.keyV,
+  );
+  await tester.sendKeyUpEvent(
+    LogicalKeyboardKey.meta,
+  );
+
+  // Press CMD+ALT+LEFT (jump to start).
+  await tester.sendKeyDownEvent(
+    LogicalKeyboardKey.meta,
+  );
+  await tester.sendKeyDownEvent(
+    LogicalKeyboardKey.alt,
+  );
+  await tester.sendKeyEvent(
+    LogicalKeyboardKey.left,
+  );
+  await tester.sendKeyUpEvent(
+    LogicalKeyboardKey.left,
+  );
+  await tester.sendKeyUpEvent(
+    LogicalKeyboardKey.meta,
+  );
+
+  // Verify expectations.
+});
+</code></pre>
+</div>
+</div>
+</div>
