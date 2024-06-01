@@ -1,11 +1,14 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/7259036/170845405-08471588-54a0-4628-b7d5-b7552b08696e.png" width="300" alt="FFMPEG CLI"><br>
-  <span><b>Execute FFMPEG CLI commands from Dart.</b></span><br><br>
+  <img src="https://github.com/Flutter-Bounty-Hunters/ffmpeg_cli/assets/7259036/6dfdca02-9add-45c3-b253-efd15ebd9066" alt="FFMPEG CLI - Run FFMPEG CLI commands from Dart">
 </p>
 
+<p align="center">
+  <a href="https://flutterbountyhunters.com" target="_blank">
+    <img src="https://github.com/Flutter-Bounty-Hunters/flutter_test_robots/assets/7259036/1b19720d-3dad-4ade-ac76-74313b67a898" alt="Built by the Flutter Bounty Hunters">
+  </a>
+</p>
 
-> This project is a Flutter Bounty Hunters [proof-of-concept](http://policies.flutterbountyhunters.com/proof-of-concept). Want more FFMPEG filters, or more FFPROBE support? [Fund a milestone](http://policies.flutterbountyhunters.com/fund-milestone) today!
-
+---
 ## What is FFMPEG?
 [FFMPEG](https://ffmpeg.org/ffmpeg.html) is a very popular, longstanding tool for reading, writing, and streaming audio and video content. Most developers use FFMPEG through its command-line interface (CLI), because that's much easier than interfacing with the C code upon which FFMPEG is built.
 
