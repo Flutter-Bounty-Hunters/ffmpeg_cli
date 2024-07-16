@@ -8,6 +8,10 @@
   </a>
 </p>
 
+<br><br>
+
+<p align="center">Check out our <a href="https://flutter-bounty-hunters.github.io/ffmpeg_cli/" target="_blank">Usage Guide</a></p>
+
 ---
 ## What is FFMPEG?
 [FFMPEG](https://ffmpeg.org/ffmpeg.html) is a very popular, longstanding tool for reading, writing, and streaming audio and video content. Most developers use FFMPEG through its command-line interface (CLI), because that's much easier than interfacing with the C code upon which FFMPEG is built.
