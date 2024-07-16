@@ -14,9 +14,7 @@ class ScaleFilter implements Filter {
     this.param0,
     this.param1,
     this.size,
-  })  : assert(width == null || width >= -1),
-        assert(height == null || height >= -1),
-        assert(eval == null || eval == 'init' || eval == 'frame'),
+  })  : assert(eval == null || eval == 'init' || eval == 'frame'),
         assert(interl == null || interl == 1 || interl == 0 || interl == -1);
 
   /// Width for scale
@@ -52,14 +50,14 @@ class ScaleFilter implements Filter {
   @override
   String toCli() {
     final properties = [
-      if (width != null) 'width=$width',
-      if (height != null) 'height=$height',
+      if (width != null && size == null) 'width=$width',
+      if (height != null && size == null) 'height=$height',
       if (eval != null) 'eval=$eval',
       if (interl != null) 'interl=$interl',
       if (swsFlags != null) 'sws_flags=${swsFlags!.cliValue}',
       if (param0 != null) 'param0=$param0',
       if (param1 != null) 'param1=$param1',
-      if (size != null) 'size=$size',
+      if (size != null) 'size=${size!.toCli()}',
     ];
 
     return 'scale=${properties.join(':')}';
