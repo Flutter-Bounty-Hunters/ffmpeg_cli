@@ -7,8 +7,7 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  static_shock:
-    path: /Users/admin/Projects/static_shock/static_shock/packages/static_shock
+  static_shock: ^0.0.9
 
 dev_dependencies:
   lints: ^2.0.0
